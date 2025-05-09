@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import 'tailwindcss';
 
 @font-face {
@@ -42,3 +43,6 @@
     --padding-post-padding-lg: 12rem;
     --width-sidebar-width: 20%;
 }
+=======
+@import 'tailwindcss';
+>>>>>>> d8b7965 (inisialisasi kerja arshyil html css)
