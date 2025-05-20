@@ -1,20 +1,23 @@
 import PostInputBox from './PostInputBox';
 import Post from './post/Post';
 import Footer from './Footer';
+import LeftSidebar from './LeftSidebar';
+import RightSidebar from './RightSidebar';
 
 export default function HomePage() {
     return (
-        <div className="w-full bg-charcoal-black font-inter lg:flex">
-            <aside className="w-13/100 top-0 sticky h-dvh hidden border-r-neutral-600 border-r-1 lg:block">
-                <navbar className="w-5 h-full flex ml-auto">
-                    ts
-                </navbar>
-            </aside>
-            <main className="flex flex-col w-full">
+        <div className="w-full bg-charcoal-black font-inter lg:flex mx-auto">
+            <LeftSidebar/>
+            <main className="flex flex-col pt-6 mx-auto
+            sm-630:w-3/4
+            md-835:w-6/10
+            lg:w-45/100
+            xl:flex-1 xl:mx-12">
                 <PostInputBox/>
                 <Post/>
                 <Post/>
             </main>
+            <RightSidebar className="hidden xl:flex"/>
             <Footer/>
         </div>
     )

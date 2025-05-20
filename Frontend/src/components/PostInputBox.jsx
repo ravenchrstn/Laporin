@@ -5,18 +5,15 @@ import DropDown from './DropDown';
 
 export default function PostInputBox() {
     return (
-        <div className="w-full post-input-box pt-5 flex px-7 flex-col gap-3 mx-auto
-        sm-630:w-3/4 sm-630:px-0
-        md-835:w-65/100
-        lg:mx-0 lg:px-6">
+        <div className="w-full flex px-6 pt-6 pb-3 flex-col gap-3 mx-auto bg-neutral-700/20 rounded-2xl">
             <DropDown/>
             <TextareaAutosize
             placeholder="Lagi mikirin apa?" 
             spellCheck={false}
-            className="post-input-area w-full text-[16px] text-white outline-none placeholder-neutral-500 placeholder:text-[16px] px-2 resize-none react-textarea-autosize mt-1" 
+            className="post-input-area w-full text-[16px] text-white outline-none placeholder-neutral-500 placeholder:text-[16px] px-2 resize-none react-textarea-autosize border-b-1 border-neutral-600/60 pb-3" 
             minRows={2}/>
-            <div className="flex h-14 justify-between border-y-neutral-600 border-t-1 gap-7 px-2">
-                <div className="h-full flex items-center gap-7">
+            <div className="flex h-fit justify-between px-2">
+                <div className="flex gap-7">
                     <ImageButton/>
                     <VideoButton/>
                 </div>
@@ -24,8 +21,9 @@ export default function PostInputBox() {
                     <div className="post-type my-auto flex-1 h-65/100  ">
                         
                     </div>
-                    <button className="cursor-pointer text-black font-bold bg-white w-22 h-9 rounded-full my-auto text-[16px] hover:bg-gray-300 transition-all duration-100">
-                        Post
+                    <button className="cursor-pointer text-black font-bold bg-white w-21 h-8 rounded-full text-[16px] hover:bg-gray-300 transition-all duration-100 flex">
+                        <p className="h-full flex items-center mx-auto">Post</p>
+                        
                     </button>
                 </div>
             </div>

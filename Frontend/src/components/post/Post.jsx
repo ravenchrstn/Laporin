@@ -5,10 +5,7 @@ import PostFooter from './PostFooter';
 
 export default function Post() {
     return (
-        <div className="w-full py-5 border-t-neutral-600 border-t-1 mx-auto 
-        sm-630:w-3/4
-        md-835:w-65/100
-        lg:mx-0 lg:w-65/100">
+        <div className="w-full py-5 mt-6 bg-neutral-700/20 rounded-2xl mx-auto">
             <PostHeader/>
             <PostText/>
             <PostImage/>
