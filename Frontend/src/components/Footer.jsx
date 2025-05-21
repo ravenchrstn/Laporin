@@ -1,22 +1,15 @@
-import Home from "./buttons/Home"
-import Complaint from "./buttons/Complaint"
-import Search from './buttons/Search';
-import Notification from "./buttons/Notification";
-import Profile from "./buttons/Profile";
-
-export default function Footer() {
+export default function Footer({userMenusWithProps, adminMenusWithProps}) {
     return (
         <footer className="w-full h-15 bottom-0 sticky bg-charcoal-black border-t-stone-700/75 border-t-1 flex justify-center
         lg:hidden">
-            <nav className="flex justify-around w-full h-full
+            <nav className="flex justify-around w-full h-full cursor-pointer
             sm-630:w-3/4 sm:justify-between">
-                <Home/>
-                <Complaint/>
-                <Search/>
-                <Notification/>
-                <Profile/>
+                {adminMenusWithProps.map(item => (
+                    <div key={item.name} className="aspect-1/1 px-2 hover:bg-neutral-700/40 rounded-full">
+                        <item.image className={item.props}/>
+                    </div>
+                ))}
             </nav>
-            
         </footer>
     )
 }

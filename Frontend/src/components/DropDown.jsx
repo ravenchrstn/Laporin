@@ -13,7 +13,7 @@ export default function DropDown() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                     </svg>
                 </ListboxButton>
-                <ListboxOptions anchor="bottom" className="-translate-x-2 translate-y-1 text-white text-md outline-0 rounded-md backdrop-blur-xs">
+                <ListboxOptions anchor="bottom" className="-translate-x-2 translate-y-1 text-white text-md outline-0 rounded-md backdrop-blur-sm">
                     <ListboxOption value="Postingan" className={`w-24 my-auto text-md px-3 py-2 justify-center ${value === "Postingan"? "hidden" : ""}`}>
                         Postingan
                     </ListboxOption>
