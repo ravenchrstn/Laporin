@@ -1,4 +1,4 @@
-import Comment from "../buttons/Comment";
+import Comment from "../icons/Comment";
 
 export default function PostComment() {
     return (

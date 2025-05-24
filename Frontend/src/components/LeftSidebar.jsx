@@ -1,11 +1,11 @@
-import User from './buttons/User';
-import Ellipsis from './buttons/Ellipsis';
+import User from './icons/User';
+import Ellipsis from './icons/Ellipsis';
 
-export default function LeftSidebar({userMenusWithProps, adminMenusWithProps}) {
+export default function LeftSidebar({className, userMenusWithProps, adminMenusWithProps}) {
     const bottomMenus = [
         {
             name: "More",
-            image: <Ellipsis/>
+            image: <Ellipsis className="mx-auto"/>
         },
         {
             name: "Nama User",
@@ -14,9 +14,8 @@ export default function LeftSidebar({userMenusWithProps, adminMenusWithProps}) {
     ]
 
     return (
-        <aside className="w-15 top-0 sticky h-dvh hidden font-inter border-r-1 border-neutral-600/60
-        lg:block    
-        xl:w-sidebar-width ">
+        <aside className={`${className} w-15 top-0 sticky h-dvh hidden font-inter border-r-1 border-neutral-600/60
+        lg:block`}>
             <div className="flex flex-col w-full h-full">
                 <a href="" className="w-fit text-white font-extrabold text-2xl mt-12 ml-16 hidden xl:block">Laporin</a>
                 <nav className="w-full h-full flex flex-col mt-12 justify-between">

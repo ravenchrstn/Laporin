@@ -5,7 +5,7 @@ import PostFooter from './PostFooter';
 
 export default function Post() {
     return (
-        <div className="w-full py-5 mt-6 bg-neutral-700/20 rounded-2xl mx-auto">
+        <div className="w-full py-5 mt-6 bg-background-post rounded-2xl mx-auto">
             <PostHeader/>
             <PostText/>
             <PostImage/>

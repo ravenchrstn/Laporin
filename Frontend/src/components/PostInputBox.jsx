@@ -1,11 +1,11 @@
 import TextareaAutosize from 'react-textarea-autosize';
-import ImageButton from './buttons/Image';
-import VideoButton from './buttons/Video';
+import ImageButton from './icons/Image';
+import VideoButton from './icons/Video';
 import DropDown from './DropDown';
 
 export default function PostInputBox() {
     return (
-        <div className="w-full flex px-6 pt-6 pb-3 flex-col gap-4 mx-auto bg-neutral-700/20 rounded-2xl">
+        <div className="w-full flex px-6 pt-6 pb-3 flex-col gap-4 mx-auto bg-background-post rounded-2xl">
             <DropDown/>
             <TextareaAutosize
             placeholder="Lagi mikirin apa?" 

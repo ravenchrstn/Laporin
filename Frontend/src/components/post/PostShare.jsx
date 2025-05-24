@@ -1,4 +1,4 @@
-import Share from "../buttons/Share";
+import Share from "../icons/Share";
 
 export default function PostShare() {
     return (

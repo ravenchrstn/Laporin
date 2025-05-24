@@ -1,21 +1,24 @@
-import Comment from "./buttons/Comment"
-import Search from "./buttons/Search"
-import Upvote from "./buttons/Upvote"
+import Comment from "./icons/Comment"
+import Search from "./icons/Search"
+import Upvote from "./icons/Upvote"
 import Chevron from "./Chevron"
+import Searchbar from "./Searchbar"
 
 export default function RightSidebar({className}) {
     return (
         <div className={`top-0 sticky w-sidebar-width h-dvh ${className} flex flex-col py-6 mr-[calc((100%-35%-50%)/3)]
         screen-1753:mr-[calc((100%-30%-50%)/3)]`}>
-            <div className="relative flex">
-                <input type="text" placeholder="Search..." className="peer w-full h-12 outline-0 font-normal text-neutral-400 rounded-[8px] border-2 border-neutral-600 pl-[46px] focus:border-neutral-500 
+            {/* <div className="relative flex">
+                <input type="text" placeholder="Search..." className="peer w-full h-12 outline-0 font-normal text-neutral-400 rounded-2xl border-2 border-neutral-600 pl-[46px] focus:border-neutral-500 
                 not-placeholder-shown:px-5 not-placeholder-shown:text-white not-placeholder-shown:font-medium bg-neutral-700/30"></input>
-                <Search className="absolute left-4 w-[20px] peer-not-placeholder-shown:hidden"/>
-            </div>
-            
+                <Search className="absolute left-4 w-[20px] peer-not-placeholder-shown:hi   dden"/>
+
+                
+            </div> */}
+            <Searchbar/>
             <div className="flex flex-col rounded-[14px] mt-6">
                 <h1 className="text-white text-[25px] font-extrabold mt-5 mx-6">Trending Now</h1>
-                <div className="mt-4 text-white bg-neutral-700/20 rounded-2xl py-6 px-3 flex flex-col">
+                <div className="mt-4 text-white bg-background-post rounded-2xl py-6 px-3 flex flex-col">
                     <TrendingPostItem/> 
                     <TrendingPostItem/> 
                     <TrendingPostItem/>

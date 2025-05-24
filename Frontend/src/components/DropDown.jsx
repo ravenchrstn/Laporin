@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
 
 export default function DropDown() {
     const [value, setValue] = useState("Postingan");
-
+    
     return (
         <div className="relative w-27 ml-2">
             <Listbox value={value} onChange={setValue}>
@@ -13,12 +13,12 @@ export default function DropDown() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                     </svg>
                 </ListboxButton>
-                <ListboxOptions anchor="bottom" className="-translate-x-2 translate-y-1 text-white text-md outline-0 rounded-md backdrop-blur-sm">
-                    <ListboxOption value="Postingan" className={`w-24 my-auto text-md px-3 py-2 justify-center ${value === "Postingan"? "hidden" : ""}`}>
-                        Postingan
+                <ListboxOptions anchor="bottom" className="-translate-x-2 translate-y-1 overflow-y-hidden text-white text-md outline-0 rounded-md backdrop-blur-sm" modal={false}>
+                    <ListboxOption value="Postingan" className={`flex w-24 text-md py-2 justify-center ${value === "Postingan"? "hidden" : ""}`}>
+                        <span className="">Postingan</span>
                     </ListboxOption>
-                    <ListboxOption value="Laporan" className={`w-25 my-auto text-md pl-3 py-2 justify-center ${value === "Laporan"? "hidden" : ""}`}>
-                        Laporan
+                    <ListboxOption value="Laporan" className={`flex w-25 text-md py-2 justify-center ${value === "Laporan"? "hidden" : ""}`}>
+                        <span className="">Laporan</span>
                     </ListboxOption>
                 </ListboxOptions>
             </Listbox>

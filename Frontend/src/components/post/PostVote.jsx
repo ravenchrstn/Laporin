@@ -1,5 +1,5 @@
-import Upvote from "../buttons/Upvote"
-import Downvote from "../buttons/Downvote"
+import Upvote from "../icons/Upvote"
+import Downvote from "../icons/Downvote"
 
 export default function PostVote() {
     return (
