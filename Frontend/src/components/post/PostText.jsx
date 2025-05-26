@@ -17,7 +17,7 @@ export default function PostText({className, h1Props, textProps, anchorProps}) {
             <p className={`${className} ${textProps} g-yellow-400 ${showMore? "" : "max-h-19"} overflow-hidden text-white mx-auto ${showMore? "whitespace-pre-line" : "line-clamp"}`}>
                 {text}
             </p>
-            <button className={`${anchorProps} text-blue-500 w-fit cursor-pointer g-red-200 flex-col hover:text-blue-600 transition font-medium h-fit`} onClick={() => {
+            <button className={`${anchorProps} text-blue-500 g-red-200 w-fit cursor-pointer g-red-200 flex-col hover:text-blue-600 transition font-medium h-fit`} onClick={() => {
                 if (showMore === true) setShowMore(false)
                 else setShowMore(true)
             }}>

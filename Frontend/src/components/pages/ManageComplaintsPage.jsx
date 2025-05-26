@@ -13,25 +13,29 @@ import Searchbar from "../Searchbar";
 import LeftSidebar from "../LeftSidebar";
 import PostHeader from "../post/PostHeader";
 import PostText from "../post/PostText";
+import Chevron, { BuiltChevron } from "../icons/Chevron";
 
 export default function ManageComplaintsPage({userMenusWithProps, adminMenusWithProps}) {
     let discussionCardIds = [1, 2, 3, 4, 5, 6];
 
     const [activeTab, setActiveTab] = useState("Complaints");
-    const [showImagesFromGrid, setShowImagesFromGrid] = useState(null);
+    const [focusImage, setFocusImage] = useState(null);
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     }, [activeTab])
     
     let content = {
-        "Discussions":  <DiscussionsTab discussionCardIds={discussionCardIds} setShowImagesFromGrid={setShowImagesFromGrid}/>,
-        "Complaints":   <ComplaintTab setShowImagesFromGrid={setShowImagesFromGrid}/>
+        "Discussions":  <DiscussionsTab discussionCardIds={discussionCardIds} setFocusImage={setFocusImage}/>,
+        "Complaints":   <ComplaintTab setFocusImage={setFocusImage}/>
     };
 
     return (
         <div className="g-red-500 font-inter flex flex-col min-h-dvh">
             <main className="screen-831:flex g-red-500">
-                {showImagesFromGrid? <FocusImagesFromGrid/> : ""}
+                <div className={`${focusImage? "flex" : "hidden"} fixed top-0 left-0 w-full h-dvh g-red-500 bg-neutral-900/90 items-center justify- z-999`}>
+                    <ImageFocusFromGrid/>
+                    <ImageFocusComment chevronClassName="hidden md:flex"/>
+                </div>
                 <LeftSidebar className="xl:w-sidebar-width" userMenusWithProps={userMenusWithProps} adminMenusWithProps={adminMenusWithProps}/>
                 <div className="screen-831:flex-1 min-w-0 lg:w-4/10 border-r-1 border-r-neutral-600/60">
                     <TabNavigator activeTab={activeTab} setActiveTab={setActiveTab}/>
@@ -64,17 +68,17 @@ function TabNavigator({activeTab, setActiveTab}) {
     )
 }
 
-function DiscussionsTab({discussionCardIds, setShowImagesFromGrid}) {
+function DiscussionsTab({discussionCardIds, setFocusImage}) {
     return (
         <div className="g-red-500">
             {discussionCardIds.map((item) => (
-                <DiscussionCard key={item} id={item} setShowImagesFromGrid={setShowImagesFromGrid}/>
+                <DiscussionCard key={item} id={item} setFocusImage={setFocusImage}/>
             ))}
         </div>
     )
 }
 
-function DiscussionCard({id, setShowImagesFromGrid}) {
+function DiscussionCard({id, setFocusImage}) {
     const complaintMenus = [
         {
             Icon: Trash,
@@ -158,7 +162,7 @@ function DiscussionCard({id, setShowImagesFromGrid}) {
                         <span className="font-light text-[10px]/3 h-fit text-neutral-300/60 g-red-500 mb-[3px]">Last Updated: 17.10</span>
                     </div>
                 </div>
-                <ThreeGridImages className="mx-4 mt-2 h-60" setShowImagesFromGrid={setShowImagesFromGrid}/>
+                <ThreeGridImages className="mx-4 mt-2 h-60" setFocusImage={setFocusImage}/>
                 <div className="mid-bottom flex g-blue-500 cursor-pointer hover:bg-neutral-600/60 transition p-4">
                     <img src="../../../assets/anya.jpg" className="w-10 rounded-full aspect-1/1 my-auto mr-4"></img>
                     <div className="flex min-w-0 w-full gap-5 g-purple-400">
@@ -198,10 +202,10 @@ function DiscussionCard({id, setShowImagesFromGrid}) {
     )   
 }
 
-function ThreeGridImages({className, setShowImagesFromGrid}) {
+function ThreeGridImages({className, setFocusImage}) {
     return (
         <div className={`${className} grid grid-cols-2 grid-rows-2 g-amber-200 screen-630:h-90`}>
-            <button className="row-span-2 bg-red-400 cursor-pointer hover:opacity-85 transition" onClick={() => {setShowImagesFromGrid(true)}}>
+            <button className="row-span-2 bg-red-400 cursor-pointer hover:opacity-85 transition" onClick={() => {setFocusImage(true)}}>
                 <img src="../../../assets/windahh.jpg" className="w-full h-full object-cover"></img>
             </button>
             <button className="g-blue-400 cursor-pointer hover:opacity-85 transition">
@@ -214,27 +218,45 @@ function ThreeGridImages({className, setShowImagesFromGrid}) {
     )
 }
 
-function FocusImagesFromGrid() {
+function ImageFocusFromGrid({chevronClassName}) {
+    // kalau ada post, tampilin comment juga
     return (
-        <div className="absolute top-0 left-0 w-full h-dvh g-red-500 bg-neutral-900/90 flex items-center justify-center z-999">
-            {/* <Chevron/> */}
-            <img src="../../../assets/anya.jpg" className="w-6/10"></img>
+        <div className="flex flex-1 justify-center relative items-center bg-red-500 w-full md:w-auto">
+            <div className="absolute left-0 bg-neutral-800 hover:bg-neutral-800/80 cursor-pointer transition rounded-full p-2 stroke-3">
+                <Chevron className="size-6 w-full g-blue-200" isLeft={true}/>
+            </div>
+            {/* <BuiltChevron isLeft={true} className={`${chevronClassName} absolute left-0 size-8 g-red-200`}/> */}
+            <img src="../../../assets/anya.jpg" className="w-3/4 md:w-full"></img>
+            <div className="absolute right-0 bg-neutral-800 hover:bg-neutral-800/80 cursor-pointer transition rounded-full p-2 stroke-3">
+                <Chevron className="size-6 w-full g-blue-200" isLeft={false}/>
+            </div>
         </div>
     )
 }
 
-function ComplaintTab({setShowImagesFromGrid}) {
+function ImageFocusComment({className}) {
+    return (
+        <div className={`${className} w-90 h-full pt-7 px-6 bg-charcoal-black`}>
+            <PostHeader/>
+            <div className="flex flex-col mt-2.5 g-red-500">
+                <PostText h1Props="text-[18px] font-extrabold g-blue-200" textProps="text-[12.5px] mt-2 g-yellow-200" anchorProps="text-xs mt-[1px] g-green-400"/>
+            </div>
+        </div>
+    )
+}
+
+function ComplaintTab({setFocusImage}) {
     return (
         <div className="g-red-200 mt-7">
-            <ComplaintCard setShowImagesFromGrid={setShowImagesFromGrid}/>
-            <ComplaintCard setShowImagesFromGrid={setShowImagesFromGrid}/>
-            <ComplaintCard setShowImagesFromGrid={setShowImagesFromGrid}/>
-            <ComplaintCard setShowImagesFromGrid={setShowImagesFromGrid}/>
+            <ComplaintCard setFocusImage={setFocusImage}/>
+            <ComplaintCard setFocusImage={setFocusImage}/>
+            <ComplaintCard setFocusImage={setFocusImage}/>
+            <ComplaintCard setFocusImage={setFocusImage}/>
         </div>
     )
 }
 
-function ComplaintCard({setShowImagesFromGrid}) {
+function ComplaintCard({setFocusImage}) {
     return (
         <div className="border-t-1 border-t-neutral-600">
             <div className="g-red-500 mt-4 mb-6 mx-[7.5dvw] screen-630:mx-[12dvw] md:mx-[17.5dvw] screen-831:mx-[20dvw] lg:mx-[3dvw] 2xl:mx-[4dvw]">
@@ -244,7 +266,7 @@ function ComplaintCard({setShowImagesFromGrid}) {
                         Need Attention!
                     </span>
                     <PostText className="g-blue-500" h1Props="text-[16px]" textProps="text-[12.5px] mt-1" anchorProps="text-[11.5px]"/>
-                    <ThreeGridImages className="mt-2.5 w-full h-60 g-teal-300" setShowImagesFromGrid={setShowImagesFromGrid}/>
+                    <ThreeGridImages className="mt-2.5 w-full h-60 g-teal-300" setFocusImage={setFocusImage}/>
                 </div>
 
                 <div id="buttons" className="flex mt-5 justify-between g-green-500">

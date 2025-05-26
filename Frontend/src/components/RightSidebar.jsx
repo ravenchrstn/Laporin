@@ -1,7 +1,7 @@
 import Comment from "./icons/Comment"
 import Search from "./icons/Search"
 import Upvote from "./icons/Upvote"
-import Chevron from "./Chevron"
+import Chevron from "./icons/Chevron"
 import Searchbar from "./Searchbar"
 
 export default function RightSidebar({className}) {
