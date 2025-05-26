@@ -10,7 +10,7 @@ import ManageComplaintsPage from './components/pages/ManageComplaintsPage';
 import Testing from './components/Testing';
 
 export default function App() {
-  const userMenus = [
+    const userMenus = [
         {   
             name: "Home",
             image: Home

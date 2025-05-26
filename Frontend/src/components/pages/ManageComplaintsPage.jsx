@@ -16,61 +16,65 @@ import PostText from "../post/PostText";
 
 export default function ManageComplaintsPage({userMenusWithProps, adminMenusWithProps}) {
     let discussionCardIds = [1, 2, 3, 4, 5, 6];
-    let content = {
-        "Discussions":  <DiscussionsTab discussionCardIds={discussionCardIds}/>,
-        "Complaints":   <ComplaintTab/>
-    };
 
     const [activeTab, setActiveTab] = useState("Complaints");
-
+    const [showImagesFromGrid, setShowImagesFromGrid] = useState(null);
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }, [activeTab])
+    
+    let content = {
+        "Discussions":  <DiscussionsTab discussionCardIds={discussionCardIds} setShowImagesFromGrid={setShowImagesFromGrid}/>,
+        "Complaints":   <ComplaintTab setShowImagesFromGrid={setShowImagesFromGrid}/>
+    };
 
     return (
         <div className="g-red-500 font-inter flex flex-col min-h-dvh">
-            <main className="lg:flex g-red-500">
+            <main className="screen-831:flex g-red-500">
+                {showImagesFromGrid? <FocusImagesFromGrid/> : ""}
                 <LeftSidebar className="xl:w-sidebar-width" userMenusWithProps={userMenusWithProps} adminMenusWithProps={adminMenusWithProps}/>
-                <div className="lg:w-4/10 border-r-1 border-r-neutral-600/60">
-                    <TabNavigator activeTab={activeTab}/>
+                <div className="screen-831:flex-1 min-w-0 lg:w-4/10 border-r-1 border-r-neutral-600/60">
+                    <TabNavigator activeTab={activeTab} setActiveTab={setActiveTab}/>
                     <Searchbar className="peer-not-placeholder-shown:hidden mt-7 mx-[7.5dvw] screen-630:mx-[12dvw] md:mx-[17.5dvw] screen-831:mx-[20dvw] lg:mx-[3dvw] 2xl:mx-[4dvw]"/>
                     {content[activeTab]}
                 </div>
                 <InfoPanel className="hidden lg:flex"/>
             </main>
-            <Footer userMenusWithProps={userMenusWithProps} adminMenusWithProps={adminMenusWithProps}
-                    className="mt-auto"/>
+            <Footer userMenusWithProps={userMenusWithProps} adminMenusWithProps={adminMenusWithProps} className="mt-auto"/>
         </div>
     )
 }
 
-function TabNavigator({activeTab}) {
+function TabNavigator({activeTab, setActiveTab}) {
     return (
-        <div className="flex h-23 sticky top-0 justify-around bg-neutral-900 complaint-tab border-b-1 g-red-500 border-neutral-600/60 z-999">
-            <div className="w-1/2 h-full flex flex-col complaint-tab-left g-purple-500 hover:bg-neutral-800 transition cursor-pointer">
-                <span className="flex justify-center items-end w-full h-full g-blue-500 leading-none text-[16px] font-semibold pb-2.5">
+        <div className="flex h-23 sticky top-0 justify-around bg-neutral-900 complaint-tab border-b-1 g-red-500 border-neutral-600/60 z-998">
+            <button className="w-1/2 h-full flex flex-col complaint-tab-left g-purple-500 hover:bg-neutral-800 transition cursor-pointer" onClick={() => {setActiveTab("Discussions")}}>
+                <span className="flex justify-center items-end w-full h-full g-blue-500 leading-none text-[14px] font-semibold pb-2.5">
                     Discussions
                 </span>
                 <span className={`w-24 rounded-full h-[3px] mx-auto block bg-indigo-600 ${activeTab === "Discussions"? "visible" : "invisible"}`}></span>
-            </div>
-            <div className="w-1/2 h-full flex flex-col complaint-tab-left g-purple-500 hover:bg-neutral-800 transition cursor-pointer">
-                <span className="flex justify-center items-end w-full h-full g-blue-500 leading-none text-[16px] font-semibold pb-2.5">
+            </button>
+            <button className="w-1/2 h-full flex flex-col complaint-tab-left g-purple-500 hover:bg-neutral-800 transition cursor-pointer" onClick={() => {setActiveTab("Complaints")}}>
+                <span className="flex justify-center items-end w-full h-full g-blue-500 leading-none text-[14px] font-semibold pb-2.5">
                     Complaints
                 </span>
                 <span className={`w-22.5 rounded-full h-[3px] mx-auto invisible bg-indigo-600 ${activeTab === "Complaints"? "visible" : "invisible"}`}></span>
-            </div>
+            </button>
         </div>
     )
 }
 
-function DiscussionsTab({discussionCardIds}) {
+function DiscussionsTab({discussionCardIds, setShowImagesFromGrid}) {
     return (
-        <div>
+        <div className="g-red-500">
             {discussionCardIds.map((item) => (
-                <DiscussionCard key={item} id={item}/>
+                <DiscussionCard key={item} id={item} setShowImagesFromGrid={setShowImagesFromGrid}/>
             ))}
         </div>
     )
 }
 
-function DiscussionCard({id}) {
+function DiscussionCard({id, setShowImagesFromGrid}) {
     const complaintMenus = [
         {
             Icon: Trash,
@@ -118,11 +122,14 @@ function DiscussionCard({id}) {
     }, []);
     
     return (
-        <div className="flex g-red-500 mt-8 mx-[7.5dvw] first:mt-7 last:mb-6 bg-neutral-800/90 rounded-r-lg screen-630:mx-[12dvw] md:mx-[17.5dvw] screen-831:mx-[20dvw] lg:mx-[3dvw] 2xl:mx-[4dvw]">
-            <div className="min-w-2 rounded-full bg-red-700"></div>
-            <div className="flex flex-col min-w-0 g-yellow-600">
-                <div className="mid-top flex g-slate-500 justify-between mt-4 mx-4 pr-0 gap-5">
-                    <span className="h-fit flex-1 my-auto g-red-500 truncate text-[16px]/5 font-bold g-amber-300 hover:text-white-hover transition cursor-pointer">
+        <div className="flex mt-8 first:mt-7 last:mb-6 bg-neutral-800/90 rounded-2xl mx-[7.5dvw] screen-630:mx-[12dvw] md:mx-[17.5dvw] screen-831:mx-[20dvw] lg:mx-[3dvw] 2xl:mx-[4dvw]">
+            {/* <div className="min-w-2 rounded-full g-red-700"></div> */}
+            <div className="flex flex-col min-w-0 w-full g-yellow-600">
+                <span className="mt-3 mx-4 text-[19px] font-extrabold text-red-500">
+                    Need Attention!
+                </span>
+                <div className="mid-top flex g-slate-500 justify-between mx-4 gap-5 g-amber-400">
+                    <span className="h-fit flex-1 my-auto g-red-500 truncate text-[16px]/5 font-bold g-red-300 hover:text-white-hover transition cursor-pointer">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit modi ad debitis vel laudantium mollitia omnis, aliquam consequuntur reprehenderit minima.
                     </span>
                     <div className="h-full p-[0.5px] mr-[2px] relative aspect-1/1 flex items-center cursor-pointer hover:bg-neutral-600/60 rounded-full transition g-sky-500">
@@ -130,7 +137,7 @@ function DiscussionCard({id}) {
                         <label htmlFor={`ellipsis-toggle-${id}`} className="g-red-500 h-full cursor-pointer">
                             <Ellipsis className="h-full aspect-1/1 g-blue-200"/>
                         </label>
-                        <div id={`menu-${id}`} className={`absolute right-0 rounded-lg shadow-neutral-600 shadow-[0px_0px_12px_1px] w-70 bg-charcoal-black hidden peer-checked:block z-999 ${additionalMenuProps}`}>
+                        <div id={`menu-${id}`} className={`absolute right-0 rounded-lg shadow-neutral-600 shadow-[0px_0px_12px_1px] w-70 bg-charcoal-black hidden peer-checked:block z-997 ${additionalMenuProps}`}>
                             {complaintMenus.map((item) => (
                                 <div key={item.Name} className="g-blue-500 flex px-5 gap-5 hover:bg-neutral-600/60 transition py-3.5 first:mt-0">
                                     <item.Icon className="size-5 my-auto g-red-500"/>
@@ -151,7 +158,7 @@ function DiscussionCard({id}) {
                         <span className="font-light text-[10px]/3 h-fit text-neutral-300/60 g-red-500 mb-[3px]">Last Updated: 17.10</span>
                     </div>
                 </div>
-                <ThreeGridImages className="mx-4 mt-2 h-60"/>
+                <ThreeGridImages className="mx-4 mt-2 h-60" setShowImagesFromGrid={setShowImagesFromGrid}/>
                 <div className="mid-bottom flex g-blue-500 cursor-pointer hover:bg-neutral-600/60 transition p-4">
                     <img src="../../../assets/anya.jpg" className="w-10 rounded-full aspect-1/1 my-auto mr-4"></img>
                     <div className="flex min-w-0 w-full gap-5 g-purple-400">
@@ -191,55 +198,67 @@ function DiscussionCard({id}) {
     )   
 }
 
-function ThreeGridImages({className}) {
+function ThreeGridImages({className, setShowImagesFromGrid}) {
     return (
-        <div className={`${className} grid grid-cols-2 grid-rows-2 bg-amber-200 screen-630:h-90`}>
-            <div className="row-span-2 bg-red-400">
+        <div className={`${className} grid grid-cols-2 grid-rows-2 g-amber-200 screen-630:h-90`}>
+            <button className="row-span-2 bg-red-400 cursor-pointer hover:opacity-85 transition" onClick={() => {setShowImagesFromGrid(true)}}>
                 <img src="../../../assets/windahh.jpg" className="w-full h-full object-cover"></img>
-            </div>
-            <div className="bg-blue-400">
+            </button>
+            <button className="g-blue-400 cursor-pointer hover:opacity-85 transition">
                 <img src="../../../assets/windahh.jpg" className="w-full h-full object-cover"></img>
-            </div>
-            <div className="col-start-2 bg-green-400">
+            </button>
+            <button className="col-start-2 g-green-400 cursor-pointer hover:opacity-85 transition">
                 <img src="../../../assets/windahh.jpg" className="w-full h-full object-cover"></img>
-            </div>
+            </button>
         </div>
     )
 }
 
-function ComplaintTab() {
+function FocusImagesFromGrid() {
+    return (
+        <div className="absolute top-0 left-0 w-full h-dvh g-red-500 bg-neutral-900/90 flex items-center justify-center z-999">
+            {/* <Chevron/> */}
+            <img src="../../../assets/anya.jpg" className="w-6/10"></img>
+        </div>
+    )
+}
+
+function ComplaintTab({setShowImagesFromGrid}) {
     return (
         <div className="g-red-200 mt-7">
-            <ComplaintCard/>
-            <ComplaintCard/>
-            <ComplaintCard/>
-            <ComplaintCard/>
+            <ComplaintCard setShowImagesFromGrid={setShowImagesFromGrid}/>
+            <ComplaintCard setShowImagesFromGrid={setShowImagesFromGrid}/>
+            <ComplaintCard setShowImagesFromGrid={setShowImagesFromGrid}/>
+            <ComplaintCard setShowImagesFromGrid={setShowImagesFromGrid}/>
         </div>
     )
 }
 
-function ComplaintCard() {
+function ComplaintCard({setShowImagesFromGrid}) {
     return (
         <div className="border-t-1 border-t-neutral-600">
-            <div className="g-red-500 mt-4 mb-6 mx-15
-                screen-630:mx-8
-                screen-831:mx-12
-                lg:mx-8">
+            <div className="g-red-500 mt-4 mb-6 mx-[7.5dvw] screen-630:mx-[12dvw] md:mx-[17.5dvw] screen-831:mx-[20dvw] lg:mx-[3dvw] 2xl:mx-[4dvw]">
                 <div className="flex flex-col g-indigo-900">
                     <PostHeader className="g-yellow-600"/>
-                    <PostText className="g-blue-500" h1Props="text-[16px] mt-3" textProps="text-[12.5px] mt-2.5" anchorProps="text-[11.5px]"/>
-                    <ThreeGridImages className="mt-2.5 w-full h-60 g-teal-300"/>
+                    <span className="mt-3 text-[15px] font-bold text-red-500">
+                        Need Attention!
+                    </span>
+                    <PostText className="g-blue-500" h1Props="text-[16px]" textProps="text-[12.5px] mt-1" anchorProps="text-[11.5px]"/>
+                    <ThreeGridImages className="mt-2.5 w-full h-60 g-teal-300" setShowImagesFromGrid={setShowImagesFromGrid}/>
                 </div>
 
-                <div id="buttons" className="flex mt-4 justify-between g-green-500">
-                    <div id="assign-to-me-button" className="bg-blue-600 flex items-center w-fit cursor-pointer hover:bg-blue-700 transition rounded-full px-4 py-3">
-                        <span className="text-[11px] font-bold h-fit leading-none g-yellow-900">Assign to Me</span>
+                <div id="buttons" className="flex mt-5 justify-between g-green-500">
+                    <div className="flex gap-3">
+                        <div id="assign-to-me-button" className="bg-white flex items-center w-fit cursor-pointer hover:bg-neutral-200 transition rounded-full px-4 py-3">
+                            <span className="text-[11px] text-charcoal-black font-bold h-fit leading-none g-yellow-900">Assign to Me</span>
+                        </div>
+                        <div id="assign-to-me-button" className="bg-white flex items-center w-fit cursor-pointer hover:bg-neutral-200 transition rounded-full px-4 py-3">
+                            <span className="text-[11px] text-charcoal-black font-bold h-fit leading-none g-yellow-900">Assign to Team</span>
+                        </div>
                     </div>
-                    <div id="assign-to-me-button" className="bg-indigo-600 flex items-center w-fit cursor-pointer hover:bg-indigo-700 transition rounded-full px-4 py-3">
-                        <span className="text-[11px] font-bold h-fit leading-none g-yellow-900">Assign to Team</span>
-                    </div>
+                    
                     <div id="assign-to-me-button" className="bg-red-600 w-fit flex items-center cursor-pointer hover:bg-red-700 transition rounded-full px-4 py-3">
-                        <span className="text-[11px] font-bold h-fit leading-none g-yellow-900">Report Complaint</span>
+                        <span className="text-[11px] font-medium h-fit leading-none g-yellow-900">Report Complaint</span>
                     </div>
                 </div>    
             </div>
@@ -250,11 +269,14 @@ function ComplaintCard() {
 
 function InfoPanel({className}) {
     return (
-        <div className={`${className} sticky justify-center items-center top-0 h-dvh g-red-500`}>
-            <div className="flex flex-col w-fit g-red-200 h-fit g-red-500 mx-15">
+        <div className={`${className} flex flex-col sticky justify-center mx-15 top-0 h-dvh g-red-500`}>
+            <div className="flex flex-col w-fit g-red-200 h-fit g-red-500">
                 <span className="title font-extrabold text-2xl leading-none">Select a Discussion</span>
-                <span className="description text-neutral-400 text-[13.5px] leading-none mt-3">Choose a discussion from the existing tab.</span>
+                <span className="description text-neutral-400 text-[13.5px] leading-none mt-3">Choose a discussion from the existing discussions tab.</span>
                 <span className="text-neutral-400 text-[13.5px]/5.5 mt-1">Or you want to form a task group and collaborate with fellow officers?</span>
+            </div>
+            <div className="mt-3 px-5 py-2.5 rounded-full bg-orange-600 w-fit cursor-pointer hover:bg-orange-700 transition">
+                <span className="text-[13px] font-medium block">Form a Group Task</span>
             </div>
         </div>
     )

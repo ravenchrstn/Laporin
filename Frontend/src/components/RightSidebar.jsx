@@ -42,7 +42,7 @@ export default function RightSidebar({className}) {
 function TrendingPostItem() {
     return (
         <>
-            <div className="group flex hover:bg-neutral-700/40 cursor-pointer p-3 rounded-2xl transition">
+            <div className="group flex hover:bg-neutral-700/40 cursor-pointer p-3 gap-2 rounded-2xl transition">
                 <div className="flex-1 flex flex-col h-fit gap-2">
                     <a href="" className="group-hover:text-white-hover text-[15px] w-fit font-medium">Pelecehan di Sumatera Selatan</a>
                     <div className="flex gap-5 w-fit font-extralight text-[12px]">

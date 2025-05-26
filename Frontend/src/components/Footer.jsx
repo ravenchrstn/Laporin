@@ -1,7 +1,7 @@
 export default function Footer({className, userMenusWithProps, adminMenusWithProps}) {
     return (
         <footer id="footer" className={`${className} w-full h-15 bottom-0 sticky bg-charcoal-black border-t-stone-700/75 border-t-1 flex justify-center
-        lg:hidden`}>
+        screen-831:hidden`}>
             <nav className="flex justify-around w-full h-full cursor-pointer
             md:w-3/4 md:justify-between">
                 {adminMenusWithProps.map(item => (

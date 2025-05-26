@@ -5,11 +5,14 @@ import PostFooter from './PostFooter';
 
 export default function Post() {
     return (
-        <div className="w-full py-5 mt-6 bg-background-post rounded-2xl mx-auto">
-            <PostHeader/>
-            <PostText h1Props="text-xl mt-4" textProps="text-[14px] mt-2"/>
+        <div className="w-full mt-6 bg-background-post rounded-2xl mx-auto">
+            <div className="my-5 g-red-500 mx-10
+            lg:mx-8">
+                <PostHeader/>
+                <PostText h1Props="text-[18px] mt-3" textProps="text-[13px] mt-2" anchorProps="text-[11.5px]"/>
+            </div>
             <PostImage/>
-            <PostFooter/>
+            <PostFooter className="my-3 mx-5"/>
         </div>
     )
 }

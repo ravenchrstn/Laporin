@@ -6,7 +6,7 @@ import RightSidebar from '../RightSidebar';
 
 export default function HomePage({userMenusWithProps, adminMenusWithProps}) {
     return (
-        <div className="bg-charcoal-black font-inter lg:flex mx-auto">
+        <div className="bg-charcoal-black font-inter screen-831:flex mx-auto">
             <LeftSidebar userMenusWithProps={userMenusWithProps} adminMenusWithProps={adminMenusWithProps} className="xl:w-sidebar-width"/>
             <main className="flex flex-col py-6 mx-auto
             screen-630:w-3/4
