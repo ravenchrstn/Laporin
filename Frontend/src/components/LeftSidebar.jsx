@@ -17,7 +17,7 @@ export default function LeftSidebar({className, userMenusWithProps, adminMenusWi
         <aside className={`${className} w-15 top-0 sticky h-dvh hidden font-inter border-r-1 border-neutral-600/60
         lg:block`}>
             <div className="flex flex-col w-full h-full">
-                <a href="" className="w-fit text-white font-extrabold text-2xl mt-12 ml-16 hidden xl:block">Laporin</a>
+                <a href="" className="w-fit text-white font-extrabold text-2xl mt-23 ml-16 hidden xl:block">Laporin</a>
                 <nav className="w-full h-full flex flex-col mt-12 justify-between">
                     <ul className="flex flex-col text-white font-light text-[15px] gap-3 xl:gap-0">
                         {userMenusWithProps.map((item) => (

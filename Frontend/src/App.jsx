@@ -73,11 +73,11 @@ export default function App() {
             props: adminMenuProps[item.name]
         }
     });
-  return (
+    return (
     // <HomePage userMenusWithProps={userMenusWithProps}
     //           adminMenusWithProps={adminMenusWithProps}/>
     <ManageComplaintsPage userMenusWithProps={userMenusWithProps}
-                          adminMenusWithProps={adminMenusWithProps}/>
+                        adminMenusWithProps={adminMenusWithProps}/>
     // <Testing/>
-  )
+    )
 }

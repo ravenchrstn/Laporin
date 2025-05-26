@@ -8,13 +8,13 @@ export default function PostFooter() {
         screen-630:w-[calc(100%-32px)]
         screen-831:w-[calc(100%-48px)]
         lg:w-[calc(100%-32px)]">
-            <div className="w-fit h-full px-6 rounded-full bg-neutral-800">
+            <div className="w-fit h-full px-6 rounded-full bg-neutral-700/40">
                 <PostVote/>
             </div>
-            <div className="w-fit h-full px-[17px] cursor-pointer rounded-full bg-neutral-800 hover:bg-neutral-800/60 transition">
+            <div className="w-fit h-full px-[17px] cursor-pointer rounded-full bg-neutral-700/40 hover:bg-neutral-700/60 transition">
                 <PostComment/>
             </div>
-            <div className="w-fit h-full px-[17px] cursor-pointer rounded-full bg-neutral-800 hover:bg-neutral-800/60 transition">
+            <div className="w-fit h-full px-[17px] cursor-pointer rounded-full bg-neutral-700/40 hover:bg-neutral-700/60 transition">
                 <PostShare/>
             </div>
         </div>

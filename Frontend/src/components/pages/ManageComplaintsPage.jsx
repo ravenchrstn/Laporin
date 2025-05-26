@@ -1,23 +1,39 @@
+import { useEffect, useState } from "react";
 import Footer from "../Footer";
+import Ban from "../icons/Ban";
+import { ChatBubble, Response } from "../icons/ChatBubble";
 import Ellipsis from "../icons/Ellipsis";
+import Link from "../icons/Link";
+import ClosedLock from "../icons/Lock";
 import Pin from "../icons/Pin";
+import Share from "../icons/Share";
+import Trash from "../icons/Trash";
 import Unpin from "../icons/Unpin";
 import Searchbar from "../Searchbar";
+import LeftSidebar from "../LeftSidebar";
+import PostHeader from "../post/PostHeader";
+import PostText from "../post/PostText";
 
 export default function ManageComplaintsPage({userMenusWithProps, adminMenusWithProps}) {
+    let discussionCardIds = [1, 2, 3, 4, 5, 6];
+    let content = {
+        "Discussions":  <DiscussionsTab discussionCardIds={discussionCardIds}/>,
+        "Complaints":   <ComplaintTab/>
+    };
+
+    const [activeTab, setActiveTab] = useState("Complaints");
+
+
     return (
         <div className="g-red-500 font-inter flex flex-col min-h-dvh">
-            <main className="flex-1 g-red-500">
-                <ManageComplaintHeader/>
-                <Searchbar className="peer-not-placeholder-shown:hidden mx-8 mt-7"/>
-                <div>
-                    <DiscussionCard/>
-                    <DiscussionCard/>
-                    <DiscussionCard/>
-                    <DiscussionCard/>
-                    <DiscussionCard/>
-                    <DiscussionCard/>
+            <main className="lg:flex g-red-500">
+                <LeftSidebar className="xl:w-sidebar-width" userMenusWithProps={userMenusWithProps} adminMenusWithProps={adminMenusWithProps}/>
+                <div className="lg:w-4/10 border-r-1 border-r-neutral-600/60">
+                    <TabNavigator activeTab={activeTab}/>
+                    <Searchbar className="peer-not-placeholder-shown:hidden mt-7 mx-[7.5dvw] screen-630:mx-[12dvw] md:mx-[17.5dvw] screen-831:mx-[20dvw] lg:mx-[3dvw] 2xl:mx-[4dvw]"/>
+                    {content[activeTab]}
                 </div>
+                <InfoPanel className="hidden lg:flex"/>
             </main>
             <Footer userMenusWithProps={userMenusWithProps} adminMenusWithProps={adminMenusWithProps}
                     className="mt-auto"/>
@@ -25,41 +41,51 @@ export default function ManageComplaintsPage({userMenusWithProps, adminMenusWith
     )
 }
 
-function ManageComplaintHeader() {
+function TabNavigator({activeTab}) {
     return (
         <div className="flex h-23 sticky top-0 justify-around bg-neutral-900 complaint-tab border-b-1 g-red-500 border-neutral-600/60 z-999">
             <div className="w-1/2 h-full flex flex-col complaint-tab-left g-purple-500 hover:bg-neutral-800 transition cursor-pointer">
                 <span className="flex justify-center items-end w-full h-full g-blue-500 leading-none text-[16px] font-semibold pb-2.5">
                     Discussions
                 </span>
-                <span className="w-24 rounded-full h-[3px] mx-auto invisible bg-blue-600"></span>
+                <span className={`w-24 rounded-full h-[3px] mx-auto block bg-indigo-600 ${activeTab === "Discussions"? "visible" : "invisible"}`}></span>
             </div>
             <div className="w-1/2 h-full flex flex-col complaint-tab-left g-purple-500 hover:bg-neutral-800 transition cursor-pointer">
                 <span className="flex justify-center items-end w-full h-full g-blue-500 leading-none text-[16px] font-semibold pb-2.5">
                     Complaints
                 </span>
-                <span className="w-22.5 rounded-full h-[3px] mx-auto block bg-blue-600"></span>
+                <span className={`w-22.5 rounded-full h-[3px] mx-auto invisible bg-indigo-600 ${activeTab === "Complaints"? "visible" : "invisible"}`}></span>
             </div>
         </div>
     )
 }
 
-function DiscussionCard() {
+function DiscussionsTab({discussionCardIds}) {
+    return (
+        <div>
+            {discussionCardIds.map((item) => (
+                <DiscussionCard key={item} id={item}/>
+            ))}
+        </div>
+    )
+}
+
+function DiscussionCard({id}) {
     const complaintMenus = [
         {
-            Icon: Pin,
+            Icon: Trash,
             Name: "Delete Complaint"
         },
         {
-            Icon: Pin,
+            Icon: Ban,
             Name: "Turn Off Officer Access"
         },
         {
-            Icon: Pin,
+            Icon: ClosedLock,
             Name: "Make Complaint Private"
         },
         {
-            Icon: Pin,
+            Icon: ChatBubble,
             Name: "Turn Off Comments"
         },
         {
@@ -67,40 +93,68 @@ function DiscussionCard() {
             Name: "Pin Complaint to Top"
         },
         {
-            Icon: Pin,
+            Icon: Link,
             Name: "Copy Complaint Link"
         },
         {
-            Icon: Pin,
+            Icon: Share,
             Name: "Share Complaint"
         }
     ]
+
+    const [additionalMenuProps, setAdditionalMenuProps] = useState();
+
+    useEffect(() => {
+        const footer = document.getElementById("footer")
+        const checkbox = document.getElementById(`ellipsis-toggle-${id}`);
+
+        checkbox.addEventListener("change", () => {
+            const menuHeight = 280;
+            const rect = checkbox.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            setAdditionalMenuProps("top-full");
+            if (rect.bottom + menuHeight + footer.offsetHeight > windowHeight) setAdditionalMenuProps("bottom-full");
+        })
+    }, []);
+    
     return (
-        <div className="flex g-red-500 mt-6 mx-8 first:mt-7 last:mb-3">
-            <div className="min-w-1.5 rounded-full bg-red-700"></div>
-            <div className="flex flex-col w-full g-yellow-600">
-                <div className="mid-top flex g-slate-500 justify-between my-2 px-4 pr-0 gap-5">
-                    <span className="h-fit flex-1 my-auto g-red-500 truncate text-[16px]/4 font-bold g-amber-300 hover:text-white-hover transition cursor-pointer">
+        <div className="flex g-red-500 mt-8 mx-[7.5dvw] first:mt-7 last:mb-6 bg-neutral-800/90 rounded-r-lg screen-630:mx-[12dvw] md:mx-[17.5dvw] screen-831:mx-[20dvw] lg:mx-[3dvw] 2xl:mx-[4dvw]">
+            <div className="min-w-2 rounded-full bg-red-700"></div>
+            <div className="flex flex-col min-w-0 g-yellow-600">
+                <div className="mid-top flex g-slate-500 justify-between mt-4 mx-4 pr-0 gap-5">
+                    <span className="h-fit flex-1 my-auto g-red-500 truncate text-[16px]/5 font-bold g-amber-300 hover:text-white-hover transition cursor-pointer">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit modi ad debitis vel laudantium mollitia omnis, aliquam consequuntur reprehenderit minima.
                     </span>
-                    <div className="p-0.5 relative aspect-1/1 flex items-center cursor-pointer hover:bg-neutral-600/60 rounded-full transition g-sky-500">
-                        <Ellipsis className="size-5 mx-auto g-red-500"/>
-                        <div className="absolute top-full right-0 rounded-lg shadow-neutral-600 shadow-[0px_0px_12px_1px] w-70 bg-charcoal-black z-999">
+                    <div className="h-full p-[0.5px] mr-[2px] relative aspect-1/1 flex items-center cursor-pointer hover:bg-neutral-600/60 rounded-full transition g-sky-500">
+                        <input type="checkbox" id={`ellipsis-toggle-${id}`} className="peer sr-only"/>
+                        <label htmlFor={`ellipsis-toggle-${id}`} className="g-red-500 h-full cursor-pointer">
+                            <Ellipsis className="h-full aspect-1/1 g-blue-200"/>
+                        </label>
+                        <div id={`menu-${id}`} className={`absolute right-0 rounded-lg shadow-neutral-600 shadow-[0px_0px_12px_1px] w-70 bg-charcoal-black hidden peer-checked:block z-999 ${additionalMenuProps}`}>
                             {complaintMenus.map((item) => (
-                                <>
-                                <div className="g-blue-500 flex px-5 gap-5 hover:bg-neutral-600/60 transition py-4 first:mt-0">
-                                    <item.Icon className="size-4.5 my-auto g-red-500"/>
-                                    <span className="flex g-red-500 justify-center text-[15px] font-semibold leading-none">{item.Name}</span>
+                                <div key={item.Name} className="g-blue-500 flex px-5 gap-5 hover:bg-neutral-600/60 transition py-3.5 first:mt-0">
+                                    <item.Icon className="size-5 my-auto g-red-500"/>
+                                    <span className="flex h-fit g-red-500 justify-center text-[15px] font-semibold my-auto leading-none">{item.Name}</span>
                                 </div>
-                                </>
                             ))}
                         </div>
                     </div>
                 </div>
-                <div className="mid-bottom flex g-blue-500 cursor-pointer hover:bg-neutral-600/60 transition p-4 pr-0">
+                <div className="flex flex-col mt-1.5 g-blue-500">
+                    <div className="flex g-red-200 gap-4 mx-4 text-neutral-300/70">
+                        <span className="leading-none text-[11px] h-fit g-red-500 font-extralight">Reported at: May, 17 2025</span>
+                        <span className="leading-none text-[11px] h-fit g-red-500 font-extralight">Deadline at: May, 20 2025</span>
+                    </div>
+                    <div className="flex min-w-0 pl-4 pr-5.5 mt-2 p-0.5 gap-2 hover:bg-neutral-600/60 transition cursor-pointer g-red-500 items-center">
+                        <Response className="size-5 g-red-200" color="white"/>
+                        <span className="flex-1 text-[12px]/3 truncate font-light h-fit mb-[1.5px] g-red-200">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempora voluptate nesciunt accusamus alias dignissimos, aspernatur laudantium dolores architecto. Consequatur, ut.</span>
+                        <span className="font-light text-[10px]/3 h-fit text-neutral-300/60 g-red-500 mb-[3px]">Last Updated: 17.10</span>
+                    </div>
+                </div>
+                <ThreeGridImages className="mx-4 mt-2 h-60"/>
+                <div className="mid-bottom flex g-blue-500 cursor-pointer hover:bg-neutral-600/60 transition p-4">
                     <img src="../../../assets/anya.jpg" className="w-10 rounded-full aspect-1/1 my-auto mr-4"></img>
-                    
-                    <div className="flex min-w-0 gap-5">
+                    <div className="flex min-w-0 w-full gap-5 g-purple-400">
                         <div className="flex flex-col min-w-0 justify-between mb-0.5 g-red-200">
                             <div id="topUserInformation" className="flex g-red-500 items-center gap-2.5">
                                 <div id="userName" className="text-[15px] h-fit font-semibold g-slate-700 leading-none">
@@ -115,13 +169,15 @@ function DiscussionCard() {
                             </p> 
                         </div>
                         
-                        <div id="rightUserComplaintInformation" className="flex flex-col mb-0.5 justify-between g-sky-300">
+                        <div id="rightUserComplaintInformation" className="flex flex-col ml-auto mb-0.5 justify-between g-sky-300">
                             <div className="w-6 h-fit relative justify-center g-red-900">
-                                <Pin className="size-[14px] mx-auto hover:fill-white-hover"/>
-                                {/* <Unpin/> */}
-                                <div className="absolute right-0 rounded-lg shadow-neutral-600 shadow-[0px_0px_12px_1px] w-60 bg-charcoal-black hidden">
-                                    <span className="flex g-red-500 hover:bg-neutral-600/60 transition justify-center text-[15px] font-bold py-2.5">Pin Chat</span>
-                                </div>
+                                <input id={`pinCheckbox-${id}`} type="checkbox" className="peer sr-only"></input>
+                                <label htmlFor={`pinCheckbox-${id}`} className="block peer-checked:hidden cursor-pointer">
+                                    <Pin className="size-[14px] mx-auto hover:fill-white-hover"/>
+                                </label>
+                                <label htmlFor={`pinCheckbox-${id}`} className="hidden peer-checked:block cursor-pointer">
+                                    <Unpin className="size-[14px] mx-auto hover:fill-white-hover"/>
+                                </label>  
                             </div>
                             
                             <span className="flex mx-auto text-[12px] b-blue-200 leading-none font-bold g-red-500">
@@ -133,6 +189,75 @@ function DiscussionCard() {
             </div>
         </div>
     )   
+}
+
+function ThreeGridImages({className}) {
+    return (
+        <div className={`${className} grid grid-cols-2 grid-rows-2 bg-amber-200 screen-630:h-90`}>
+            <div className="row-span-2 bg-red-400">
+                <img src="../../../assets/windahh.jpg" className="w-full h-full object-cover"></img>
+            </div>
+            <div className="bg-blue-400">
+                <img src="../../../assets/windahh.jpg" className="w-full h-full object-cover"></img>
+            </div>
+            <div className="col-start-2 bg-green-400">
+                <img src="../../../assets/windahh.jpg" className="w-full h-full object-cover"></img>
+            </div>
+        </div>
+    )
+}
+
+function ComplaintTab() {
+    return (
+        <div className="g-red-200 mt-7">
+            <ComplaintCard/>
+            <ComplaintCard/>
+            <ComplaintCard/>
+            <ComplaintCard/>
+        </div>
+    )
+}
+
+function ComplaintCard() {
+    return (
+        <div className="border-t-1 border-t-neutral-600">
+            <div className="g-red-500 mt-4 mb-6 mx-15
+                screen-630:mx-8
+                screen-831:mx-12
+                lg:mx-8">
+                <div className="flex flex-col g-indigo-900">
+                    <PostHeader className="g-yellow-600"/>
+                    <PostText className="g-blue-500" h1Props="text-[16px] mt-3" textProps="text-[12.5px] mt-2.5" anchorProps="text-[11.5px]"/>
+                    <ThreeGridImages className="mt-2.5 w-full h-60 g-teal-300"/>
+                </div>
+
+                <div id="buttons" className="flex mt-4 justify-between g-green-500">
+                    <div id="assign-to-me-button" className="bg-blue-600 flex items-center w-fit cursor-pointer hover:bg-blue-700 transition rounded-full px-4 py-3">
+                        <span className="text-[11px] font-bold h-fit leading-none g-yellow-900">Assign to Me</span>
+                    </div>
+                    <div id="assign-to-me-button" className="bg-indigo-600 flex items-center w-fit cursor-pointer hover:bg-indigo-700 transition rounded-full px-4 py-3">
+                        <span className="text-[11px] font-bold h-fit leading-none g-yellow-900">Assign to Team</span>
+                    </div>
+                    <div id="assign-to-me-button" className="bg-red-600 w-fit flex items-center cursor-pointer hover:bg-red-700 transition rounded-full px-4 py-3">
+                        <span className="text-[11px] font-bold h-fit leading-none g-yellow-900">Report Complaint</span>
+                    </div>
+                </div>    
+            </div>
+        </div>
+        
+    )
+}
+
+function InfoPanel({className}) {
+    return (
+        <div className={`${className} sticky justify-center items-center top-0 h-dvh g-red-500`}>
+            <div className="flex flex-col w-fit g-red-200 h-fit g-red-500 mx-15">
+                <span className="title font-extrabold text-2xl leading-none">Select a Discussion</span>
+                <span className="description text-neutral-400 text-[13.5px] leading-none mt-3">Choose a discussion from the existing tab.</span>
+                <span className="text-neutral-400 text-[13.5px]/5.5 mt-1">Or you want to form a task group and collaborate with fellow officers?</span>
+            </div>
+        </div>
+    )
 }
 
 function Complaints() {
