@@ -1,1 +1,43 @@
-@import 'tailwindcss'
+@import 'tailwindcss';
+
+@font-face {
+    font-family: Inter;
+    src: url("../assets/font/Inter-VariableFont.ttf");
+}
+
+@layer utilities {
+    :root {
+        color-scheme: dark;
+    }
+
+    html, body {
+        overscroll-behavior: contain;
+    }
+}
+
+@theme {
+    --color-pallete: #2D3250;
+    --color-palletes: #424769;
+    --color-palletez: #7077A1;
+    --color-post-button: #e8e8e8;
+    --color-charcoal-black: #121212; 
+    --color-background-post: #1c1c1c;
+    --color-white-hover: var(--color-gray-300);
+    --margin-5%: 5%;
+    --padding-header: 40px;
+    --padding-10%: 10%;
+    --width-100%: 100%;
+    --width-30%: 30%;
+    --width-40%: 40%;
+    --width-60%: 60%;
+    --height-30%: 30%;
+    --height-70%: 70%;
+    --height-80%: 80%;
+    --height-100%: 100%;
+    --font-inter: Inter, "sans-serif";
+    --breakpoint-screen-630: 39.375rem;
+    --breakpoint-screen-831: 51.938rem;
+    --breakpoint-screen-1753: 109.563rem;
+    --padding-post-padding-lg: 12rem;
+    --width-sidebar-width: 20%;
+}
