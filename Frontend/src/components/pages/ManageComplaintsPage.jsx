@@ -18,6 +18,8 @@ import PostFooter from "../post/PostFooter";
 import Upvote from "../icons/Upvote";
 import Comment from "../icons/Comment";
 import Bookmark from "../icons/Bookmark";
+import { LongLeftArrow, LongRightArrow } from "../icons/LongArrow";
+import XMark from "../icons/XMark";
 
 export default function ManageComplaintsPage({userMenusWithProps, adminMenusWithProps}) {
     let discussionCardIds = [1, 2, 3, 4, 5, 6];
@@ -44,7 +46,7 @@ export default function ManageComplaintsPage({userMenusWithProps, adminMenusWith
     return (
         <div className="g-red-500 font-inter flex flex-col min-h-dvh">
             <main className="screen-831:flex g-red-500">
-                <div className={`${focusImage? "flex" : "hidden"} overflow-y-auto min-h-dvh fixed top-0 left-0 w-full h-dvh g-red-500 bg-neutral-900/80 items-center justify- z-999`}>
+                <div className={`${focusImage? "flex" : "hidden"} min-h-dvh fixed top-0 left-0 w-full h-dvh g-red-500 bg-neutral-900/80 justify- z-999`}>
                     <ImageFocusFromGrid/>
                     <ImageFocusComment chevronClassName="hidden md:flex"/>
                 </div>
@@ -233,14 +235,17 @@ function ThreeGridImages({className, setFocusImage}) {
 function ImageFocusFromGrid({chevronClassName}) {
     // kalau ada post, tampilin comment juga
     return (
-        <div className="flex flex-1 justify-center relative items-center bg-red-500 w-full md:w-auto">
+        <div className="flex flex-1 justify-center relative items-center g-red-500 w-full md:w-auto">
+            <button className="absolute top-2 right-1 p-2 rounded-full g-red-500 cursor-pointer bg-neutral-800/90 hover:bg-neutral-600/50">
+                <XMark className="size-5"/>
+            </button>
             <div className="absolute left-0 bg-neutral-800 hover:bg-neutral-800/80 cursor-pointer transition rounded-full p-2 stroke-3">
-                <Chevron className="size-6 w-full g-blue-200" isLeft={true}/>
+                <LongLeftArrow className="size-4 w-full g-blue-200" isLeft={true}/>
             </div>
             {/* <BuiltChevron isLeft={true} className={`${chevronClassName} absolute left-0 size-8 g-red-200`}/> */}
             <img src="../../../assets/anya.jpg" className="w-3/4 md:w-full"></img>
             <div className="absolute right-0 bg-neutral-800 hover:bg-neutral-800/80 cursor-pointer transition rounded-full p-2 stroke-3">
-                <Chevron className="size-6 w-full g-blue-200" isLeft={false}/>
+                <LongRightArrow className="size-4 w-full g-blue-200" isLeft={false}/>
             </div>
         </div>
     )
@@ -248,15 +253,15 @@ function ImageFocusFromGrid({chevronClassName}) {
 
 function ImageFocusComment({className}) {
     return (
-        <div className={`${className} w-95 min-h-screen bg-charcoal-black pt-7 hidden md:flex flex-col`}>
-            <div className="flex flex-col px-6">
+        <div className={`${className} w-95 bg-charcoal-black pt-7 hidden overflow-y-auto md:block`}>
+            <div className="px-6">
                 <PostHeader/>
                 <div className="flex flex-col mt-2.5 g-red-500">
                     <PostText h1Props="text-[18px] font-extrabold g-blue-200" textProps="text-[12.5px] mt-2 g-yellow-200" anchorProps="text-xs mt-[1px] g-green-400"/>
                 </div>
             </div>
             
-            <div className="w-full h-12 mt-3 flex justify-between g-red-500 border-y-1 border-y-neutral-600">
+            <div className="w-full h-12 mt-4 flex justify-between g-red-500 border-y-1 border-y-neutral-600">
                 <div className="flex items-center g-red-500 mx-4">
                     <div className="p-2 hover:bg-neutral-600/60 cursor-pointer transition rounded-full g-red-500">
                         <Upvote className="size-4 g-blue-500"/>
@@ -289,7 +294,7 @@ function ImageFocusComment({className}) {
                 <input type="text" placeholder="Join the conversation" className="w-full h-full outline-none px-6 text-[13px] text-white placeholder-shown:text-neutral-500"></input>
             </div>
 
-            <div className="flex-1">
+            <div className="flex-1 g-red-100">
                 <FocusImageCommentCard/>
                 <FocusImageCommentCard/>
                 <FocusImageCommentCard/>
@@ -300,25 +305,22 @@ function ImageFocusComment({className}) {
 }
 
 function FocusImageCommentCard({className, dateProps, message}) {
-    let commentContent = 
-        <div className="h-7 w-full text-[13px] g-red-700">
-            HIDUP JOKOWII!!
-        </div>
+    let commentContent = <PostText className="mt-2" h1Props="hidden" textProps="text-[13px]" anchorProps="text-[12px] mt-1.5 leading-none"/>
 
     return (
-        <div className={`${className} flex flex-col w-full mt-5 g-indigo-200 px-5 py-2 gap-2 border-y-1 border-neutral-600/60`}>
-            <div className="flex g-orange-500 my-3 gap-3">
+        <div className={`${className} flex flex-col w-full first:mt-5 g-indigo-200 px-5 pt-5 pb-6 border-t-1 border-neutral-600`}>
+            <div className="flex g-orange-500 gap-3">
                 {/* <div className="block bg-red-500 w-10 h-full">
                     
                 </div> */}
                 <img className="w-10 h-10 rounded-full overflow-hidden" src="../../assets/anya.jpg" alt="profile picture"></img>
-                <div className="flex flex-col flex-1 g-blue-500 gap-1">
-                    <div className="flex gap-3  items-center g-green-400">
+                <div className="flex flex-col flex-1 mt-1 g-blue-500">
+                    <div className="flex gap-3 items-center g-green-400">
                         <a href="" className="text-[13px] text-neutral-200 transition leading-none hover:text-neutral-300 g-red-300">Raven Christian</a>
                         <p className={`${dateProps} text-neutral-500 text-[10px] mb-[1px] h-fit leading-none g-blue-400`}>11 Des 12:26</p>
                     </div>
                     {commentContent}
-                    <ThreeGridImages/>
+                    <ThreeGridImages className="mt-2"/>
                 </div>
             </div>
         </div>
