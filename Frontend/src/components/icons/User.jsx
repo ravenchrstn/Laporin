@@ -1,5 +1,5 @@
-export default function User() {
+export default function User({className}) {
     return (
-        <img className="w-full my-auto aspect-1/1 rounded-full cursor-pointer" src="../../../assets/anya.jpg"></img>
+        <img className={`${className} my-auto aspect-1/1 rounded-full cursor-pointer`} src="../../../assets/anya.jpg"></img>
     )
 }

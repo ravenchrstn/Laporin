@@ -18,7 +18,7 @@ import PostFooter from "../post/PostFooter";
 import Upvote from "../icons/Upvote";
 import Comment from "../icons/Comment";
 import Bookmark from "../icons/Bookmark";
-import { LongLeftArrow, LongRightArrow } from "../icons/LongArrow";
+import { LeftArrow, RightArrow } from "../icons/Arrow";
 import XMark from "../icons/XMark";
 
 export default function ManageComplaintsPage({userMenusWithProps, adminMenusWithProps}) {
@@ -46,17 +46,17 @@ export default function ManageComplaintsPage({userMenusWithProps, adminMenusWith
     return (
         <div className="g-red-500 font-inter flex flex-col min-h-dvh">
             <main className="screen-831:flex g-red-500">
-                <div className={`${focusImage? "flex" : "hidden"} min-h-dvh fixed top-0 left-0 w-full h-dvh g-red-500 bg-neutral-900/80 justify- z-999`}>
+                <div className={`${focusImage? "flex" : "hidden"} min-h-dvh fixed top-0 left-0 w-full h-dvh g-red-500 bg-neutral-900/80 z-999`}>
                     <ImageFocusFromGrid setFocusImage={setFocusImage}/>
                     <ImageFocusComment chevronClassName="hidden md:flex"/>
                 </div>
                 <LeftSidebar className="xl:w-sidebar-width" userMenusWithProps={userMenusWithProps} adminMenusWithProps={adminMenusWithProps}/>
-                <div className="screen-831:flex-1 min-w-0 lg:w-4/10 border-r-1 border-r-neutral-600/60">
+                <div className="screen-831:flex-1 min-w-0 border-r-1 border-r-neutral-600/60">
                     <TabNavigator activeTab={activeTab} setActiveTab={setActiveTab}/>
                     <Searchbar className="peer-not-placeholder-shown:hidden mt-7 mx-[7.5dvw] screen-630:mx-[12dvw] md:mx-[17.5dvw] screen-831:mx-[20dvw] lg:mx-[3dvw] 2xl:mx-[4dvw]"/>
                     {content[activeTab]}
                 </div>
-                <InfoPanel className="hidden lg:flex"/>
+                <InfoPanel className="hidden flex-1 lg:flex"/>
             </main>
             <Footer userMenusWithProps={userMenusWithProps} adminMenusWithProps={adminMenusWithProps} className="mt-auto"/>
         </div>
@@ -140,13 +140,13 @@ function DiscussionCard({id, setFocusImage}) {
     }, []);
     
     return (
-        <div className="flex mt-8 first:mt-7 last:mb-6 bg-neutral-800/90 rounded-2xl mx-[7.5dvw] screen-630:mx-[12dvw] md:mx-[17.5dvw] screen-831:mx-[20dvw] lg:mx-[3dvw] 2xl:mx-[4dvw]">
+        <div className="flex mt-8 first:mt-7 last:mb-6 bg-neutral-800/40 rounded-2xl mx-[7.5dvw] screen-630:mx-[12dvw] md:mx-[17.5dvw] screen-831:mx-[20dvw] lg:mx-[3dvw] 2xl:mx-[4dvw]">
             {/* <div className="min-w-2 rounded-full g-red-700"></div> */}
             <div className="flex flex-col min-w-0 w-full g-yellow-600">
-                <span className="mt-3 mx-4 text-[19px] font-extrabold text-red-500">
+                <span className="mt-3 mx-6 text-[19px] font-extrabold text-red-500">
                     Need Attention!
                 </span>
-                <div className="mid-top flex g-slate-500 justify-between mx-4 gap-5 g-amber-400">
+                <div className="mid-top flex g-slate-500 justify-between mx-6 gap-5 g-amber-400">
                     <span className="h-fit flex-1 my-auto g-red-500 truncate text-[16px]/5 font-bold g-red-300 hover:text-white-hover transition cursor-pointer">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit modi ad debitis vel laudantium mollitia omnis, aliquam consequuntur reprehenderit minima.
                     </span>
@@ -157,7 +157,7 @@ function DiscussionCard({id, setFocusImage}) {
                         </label>
                         <div id={`menu-${id}`} className={`absolute right-0 rounded-lg shadow-neutral-600 shadow-[0px_0px_12px_1px] w-70 bg-charcoal-black hidden peer-checked:block z-997 ${additionalMenuProps}`}>
                             {complaintMenus.map((item) => (
-                                <div key={item.Name} className="g-blue-500 flex px-5 gap-5 hover:bg-neutral-600/60 transition py-3.5 first:mt-0">
+                                <div key={item.Name} className="g-blue-500 flex px-5 gap-5 hover:bg-neutral-600/60 transition py-3.5 first:mt-0 first:rounded-t-lg last:rounded-b-lg">
                                     <item.Icon className="size-5 my-auto g-red-500"/>
                                     <span className="flex h-fit g-red-500 justify-center text-[15px] font-semibold my-auto leading-none">{item.Name}</span>
                                 </div>
@@ -166,22 +166,22 @@ function DiscussionCard({id, setFocusImage}) {
                     </div>
                 </div>
                 <div className="flex flex-col mt-1.5 g-blue-500">
-                    <div className="flex g-red-200 gap-4 mx-4 text-neutral-300/70">
+                    <div className="flex g-red-200 gap-4 mx-6 text-neutral-300/70">
                         <span className="leading-none text-[11px] h-fit g-red-500 font-extralight">Reported at: May, 17 2025</span>
                         <span className="leading-none text-[11px] h-fit g-red-500 font-extralight">Deadline at: May, 20 2025</span>
                     </div>
-                    <div className="flex min-w-0 pl-4 pr-5.5 mt-2 p-0.5 gap-2 hover:bg-neutral-600/60 transition cursor-pointer g-red-500 items-center">
+                    <div className="flex min-w-0 pl-6 pr-5.5 mt-2 p-0.5 gap-2 hover:bg-neutral-600/60 transition cursor-pointer g-red-500 items-center">
                         <Response className="size-5 g-red-200" color="white"/>
                         <span className="flex-1 text-[12px]/3 truncate font-light h-fit mb-[1.5px] g-red-200">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempora voluptate nesciunt accusamus alias dignissimos, aspernatur laudantium dolores architecto. Consequatur, ut.</span>
                         <span className="font-light text-[10px]/3 h-fit text-neutral-300/60 g-red-500 mb-[3px]">Last Updated: 17.10</span>
                     </div>
                 </div>
-                <ThreeGridImages className="mx-4 mt-2 h-60" setFocusImage={setFocusImage}/>
-                <div className="mid-bottom flex g-blue-500 cursor-pointer hover:bg-neutral-600/60 transition p-4">
+                <ThreeGridImages className="mx-6 mt-2 h-60" setFocusImage={setFocusImage}/>
+                <div className="mid-bottom flex g-blue-500 cursor-pointer hover:bg-neutral-600/60 transition p-6">
                     <img src="../../../assets/anya.jpg" className="w-10 rounded-full aspect-1/1 my-auto mr-4"></img>
                     <div className="flex min-w-0 w-full gap-5 g-purple-400">
                         <div className="flex flex-col min-w-0 justify-between mb-0.5 g-red-200">
-                            <div id="topUserInformation" className="flex g-red-500 items-center gap-2.5">
+                            <div id="topUserInformation" className="flex g-red-500 items-center mt-0.5 gap-2.5">
                                 <div id="userName" className="text-[15px] h-fit font-semibold g-slate-700 leading-none">
                                     Anya Forger
                                 </div>
@@ -234,19 +234,22 @@ function ThreeGridImages({className, setFocusImage}) {
 
 function ImageFocusFromGrid({chevronClassName, setFocusImage}) {
     // kalau ada post, tampilin comment juga
+    // ukuran aspect ratio menentukan attribute props (md:mx-[5dvw]) (md:w-full md:max-w-[900px])
     return (
-        <div className="flex flex-1 justify-center relative items-center g-red-500 w-full md:w-auto">
+        <div className="flex flex-1 justify-center relative items-center g-red-500 md:w-auto">
             <button className="absolute top-2 right-1 p-2 rounded-full g-red-500 cursor-pointer bg-neutral-800/90 hover:bg-neutral-600/50" onClick={() => {setFocusImage(false)}}>
                 <XMark className="size-4"/>
             </button>
-            <div className="absolute left-0 bg-neutral-800 hover:bg-neutral-800/80 cursor-pointer transition rounded-full p-2 stroke-3">
-                <LongLeftArrow className="size-4 w-full g-blue-200" isLeft={true}/>
+            <div className="bg-blue-500 md:mx-[5dvw]">
+                <div className="absolute left-2 top-1/2 bg-neutral-900 hover:bg-neutral-800/80 cursor-pointer transition rounded-full p-2 stroke-3">
+                    <LeftArrow className="size-4 g-blue-200"/>
+                </div>
+                <img src="../../../assets/windahhh.jpg" className="bg-blue-500 md:w-full md:max-w-[900px]"></img>
+                <div className="absolute right-2 top-1/2 bg-neutral-900 hover:bg-neutral-800/80 cursor-pointer transition rounded-full p-2 stroke-3">
+                    <RightArrow className="size-4 g-blue-200"/>
+                </div>
             </div>
-            {/* <BuiltChevron isLeft={true} className={`${chevronClassName} absolute left-0 size-8 g-red-200`}/> */}
-            <img src="../../../assets/anya.jpg" className="w-3/4 md:w-full"></img>
-            <div className="absolute right-0 bg-neutral-800 hover:bg-neutral-800/80 cursor-pointer transition rounded-full p-2 stroke-3">
-                <LongRightArrow className="size-4 w-full g-blue-200" isLeft={false}/>
-            </div>
+            
         </div>
     )
 }
@@ -374,19 +377,15 @@ function ComplaintCard({setFocusImage}) {
 
 function InfoPanel({className}) {
     return (
-        <div className={`${className} flex flex-col sticky justify-center mx-15 top-0 h-dvh g-red-500`}>
-            <div className="flex flex-col w-fit g-red-200 h-fit g-red-500">
+        <div className={`${className} flex flex-col sticky justify-center top-0 h-dvh g-red-500`}>
+            <div className="flex flex-col w-fit g-red-200 h-fit mx-15 g-red-100">
                 <span className="title font-extrabold text-2xl leading-none">Select a Discussion</span>
                 <span className="description text-neutral-400 text-[13.5px] leading-none mt-3">Choose a discussion from the existing discussions tab.</span>
                 <span className="text-neutral-400 text-[13.5px]/5.5 mt-1">Or you want to form a task group and collaborate with fellow officers?</span>
             </div>
-            <div className="mt-3 px-5 py-2.5 rounded-full bg-orange-600 w-fit cursor-pointer hover:bg-orange-700 transition">
+            <div className="mt-3 px-5 py-2.5 mx-15 rounded-full bg-orange-600 w-fit cursor-pointer hover:bg-orange-700 transition">
                 <span className="text-[13px] font-medium block">Form a Group Task</span>
             </div>
         </div>
     )
-}
-
-function Complaints() {
-
 }

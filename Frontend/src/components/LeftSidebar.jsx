@@ -1,19 +1,84 @@
 import User from './icons/User';
 import Ellipsis from './icons/Ellipsis';
+import Settings from './icons/Settings';
+import Upvote from './icons/Upvote';
+import Bookmark from './icons/Bookmark';
+import Sun from './icons/Sun';
+import { RightLeftArrow } from './icons/Arrow';
+import Logout from './icons/Logout';
+import { useEffect, useState } from 'react';
 
 export default function LeftSidebar({className, userMenusWithProps, adminMenusWithProps}) {
+    const [isEllipsisMenuOpened, setIsEllipsisMenuOpened] = useState(false);
+
+    const ellipsisMenus = [
+        {
+            name: "Settings",
+            image: <Settings className="size-5 my-auto"/>
+        },
+        {
+            name: "Saved",
+            image: <Bookmark className="size-5 my-auto"/>
+        },
+        {
+            name: "Upvoted",
+            image: <Upvote className="size-5 my-auto"/>
+        },
+        {
+            name: "Switch to Light Mode",
+            image: <Sun className="size-5 my-auto"/>
+        },
+        {
+            name: "Switch Accounts",
+            image: <RightLeftArrow className="size-5 my-auto g-red-500"/>
+        },
+        {
+            name: "Logout",
+            image: <Logout className="size-5 my-auto"/>
+        }
+    ]
+    
     const bottomMenus = [
         {
             name: "More",
-            image: 
-            <div className="bg-r">
-                <div></div>
-                <Ellipsis className="mx-auto size-7"/>
-            </div>
+            menu: (name) => (
+                <>
+                    <div className={`absolute flex flex-col text-[15px] font-semibold rounded-xl bg-charcoal-black left-0 bottom-110/100 w-65 h-fit shadow-neutral-600 shadow-[0px_0px_12px_1px] z-999  ${isEllipsisMenuOpened? "flex" : "hidden"}`}>
+                        {ellipsisMenus.map((item) => (
+                            <div className="flex gap-6 last:rounded-b-xl first:rounded-t-xl hover:bg-neutral-600/60 transition px-6 py-3 cursor-pointer">
+                                {item.image}
+                                <span>{item.name}</span>
+                            </div>
+                        ))}
+                    </div>
+
+                    <button className="relative w-9 aspect-1/1 my-auto xl:my-0 cursor-pointer hover:bg-neutral-600/60 xl:pointer-events-none transition mx-auto g-green-500 rounded-full" 
+                        onClick={() => {
+                            if (isEllipsisMenuOpened) setIsEllipsisMenuOpened(false)
+                            else setIsEllipsisMenuOpened(true)
+                        }}>
+                        <Ellipsis className="mx-auto size-7.5"/>
+                    </button>
+                    <p className="hidden g-blue-200 my-auto items-center cursor-pointer
+                    xl:flex">
+                        {name}
+                    </p>
+                </>
+            )      
         },
         {
             name: "Nama User",
-            image: <User/>
+            menu: (name) => (
+                <>
+                    <div className="my-auto mx-auto xl:my-0 cursor-pointerrounded-full xl:p-0">
+                        <User className="size-9"/>
+                    </div>
+                    <p className="hidden g-blue-200 my-auto items-center cursor-pointer
+                        xl:flex">
+                        {name}
+                    </p>
+                </>
+            )
         }
     ]
 
@@ -28,7 +93,7 @@ export default function LeftSidebar({className, userMenusWithProps, adminMenusWi
                             <li key={item.name} className="flex gap-4 transition">
                                 <div className="flex w-8/10 rounded-full cursor-pointer aspect-1/1 mx-auto
                                 xl:py-4 xl:pl-3 xl:pr-6 xl:w-fit xl:aspect-auto xl:ml-11 xl:gap-4
-                                hover:bg-neutral-700/50 transition">
+                                hover:bg-neutral-600/60 transition">
                                     <div className="w-9 flex justify-center mx-auto">
                                         <item.image className={item.props}/>
                                     </div>
@@ -40,25 +105,22 @@ export default function LeftSidebar({className, userMenusWithProps, adminMenusWi
                             </li>
                         ))}
                     </ul>
-                    <ul className="flex flex-col mb-7 gap-2 text-[13.5px] text-white font-light">
+                    <ul className="flex flex-col mb-7 gap-4 text-[13.5px] text-white font-light">
                         {bottomMenus.map((item) => {
-                            let widthSelection = "w-8/10";
-                            if (item.name === bottomMenus[1].name) widthSelection = "w-9/10";
                             return (
                                 <li key={item.name} className="flex">
-                                    <div className={`${widthSelection} flex mx-auto justify-center cursor-pointer rounded-full aspect-1/1 g-red-500
-                                    xl:ml-11 xl:py-2 xl:pl-3 xl:pr-6 xl:w-fit xl:aspect-auto xl:gap-4 hover:bg-neutral-700/50 transition`}>
-                                        <div className="w-9 my-auto xl:my-0 g-green-500">
-                                            {item.image}
-                                        </div>
-                                        <p className="hidden g-blue-200 items-center cursor-pointer
-                                        xl:flex">
-                                            {item.name}
-                                        </p>
-                                    </div>
+                                    <button className={`w-7/10 flex relative g-red-500 mx-auto transition
+                                    xl:hover:bg-neutral-600/60 xl:cursor-pointer xl:rounded-full
+                                    xl:ml-11 xl:py-2 xl:pl-3 xl:pr-6 xl:w-fit xl:aspect-auto xl:gap-4`} onClick={ () => {
+                                        //  && window.innerWidth >= 1024
+                                        setIsEllipsisMenuOpened(false);
+                                        if (item.name === "More" && !isEllipsisMenuOpened) setIsEllipsisMenuOpened(true);
+                                    }}>
+                                        {item.menu(item.name)}
+                                    </button>
                                 </li>
-                            );
-                            })}
+                            )
+                        })}
                     </ul>
                 </nav>
             </div>
