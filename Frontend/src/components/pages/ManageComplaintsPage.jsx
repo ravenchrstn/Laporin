@@ -14,6 +14,10 @@ import LeftSidebar from "../LeftSidebar";
 import PostHeader from "../post/PostHeader";
 import PostText from "../post/PostText";
 import Chevron, { BuiltChevron } from "../icons/Chevron";
+import PostFooter from "../post/PostFooter";
+import Upvote from "../icons/Upvote";
+import Comment from "../icons/Comment";
+import Bookmark from "../icons/Bookmark";
 
 export default function ManageComplaintsPage({userMenusWithProps, adminMenusWithProps}) {
     let discussionCardIds = [1, 2, 3, 4, 5, 6];
@@ -23,6 +27,14 @@ export default function ManageComplaintsPage({userMenusWithProps, adminMenusWith
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     }, [activeTab])
+
+    useEffect(() => {
+        if (focusImage) document.body.style.overflow = "hidden";
+        else document.body.style.overflow = "auto";
+
+        return (() => document.body.style.overflow = "auto"); 
+    }, [focusImage])
+    
     
     let content = {
         "Discussions":  <DiscussionsTab discussionCardIds={discussionCardIds} setFocusImage={setFocusImage}/>,
@@ -32,7 +44,7 @@ export default function ManageComplaintsPage({userMenusWithProps, adminMenusWith
     return (
         <div className="g-red-500 font-inter flex flex-col min-h-dvh">
             <main className="screen-831:flex g-red-500">
-                <div className={`${focusImage? "flex" : "hidden"} fixed top-0 left-0 w-full h-dvh g-red-500 bg-neutral-900/90 items-center justify- z-999`}>
+                <div className={`${focusImage? "flex" : "hidden"} overflow-y-auto min-h-dvh fixed top-0 left-0 w-full h-dvh g-red-500 bg-neutral-900/80 items-center justify- z-999`}>
                     <ImageFocusFromGrid/>
                     <ImageFocusComment chevronClassName="hidden md:flex"/>
                 </div>
@@ -236,14 +248,83 @@ function ImageFocusFromGrid({chevronClassName}) {
 
 function ImageFocusComment({className}) {
     return (
-        <div className={`${className} w-90 h-full pt-7 px-6 bg-charcoal-black`}>
-            <PostHeader/>
-            <div className="flex flex-col mt-2.5 g-red-500">
-                <PostText h1Props="text-[18px] font-extrabold g-blue-200" textProps="text-[12.5px] mt-2 g-yellow-200" anchorProps="text-xs mt-[1px] g-green-400"/>
+        <div className={`${className} w-95 min-h-screen bg-charcoal-black pt-7 hidden md:flex flex-col`}>
+            <div className="flex flex-col px-6">
+                <PostHeader/>
+                <div className="flex flex-col mt-2.5 g-red-500">
+                    <PostText h1Props="text-[18px] font-extrabold g-blue-200" textProps="text-[12.5px] mt-2 g-yellow-200" anchorProps="text-xs mt-[1px] g-green-400"/>
+                </div>
+            </div>
+            
+            <div className="w-full h-12 mt-3 flex justify-between g-red-500 border-y-1 border-y-neutral-600">
+                <div className="flex items-center g-red-500 mx-4">
+                    <div className="p-2 hover:bg-neutral-600/60 cursor-pointer transition rounded-full g-red-500">
+                        <Upvote className="size-4 g-blue-500"/>
+                    </div>
+                    <span className="text-[11px] mt-[3px] leading-none g-green-400">12.2k</span>
+                </div>
+
+                <div className="flex items-center g-red-500 mx-4">
+                    <div className="p-2 hover:bg-neutral-600/60 cursor-pointer transition rounded-full g-red-500">
+                        <Comment className="size-4 g-blue-500"/>
+                    </div>
+                    <span className="text-[11px] mt-[3px] leading-none g-green-400">12.2k</span>
+                </div>
+
+                <div className="flex items-center g-red-500 mx-4">
+                    <div className="p-2 hover:bg-neutral-600/60 cursor-pointer transition rounded-full g-red-500">
+                        <Bookmark className="size-4 g-blue-500"/>
+                    </div>
+                    <span className="text-[11px] mt-[3px] leading-none g-green-400">12.2k</span>
+                </div>
+
+                <div className="flex items-center g-red-500 mx-4">
+                    <div className="p-2 hover:bg-neutral-600/60 cursor-pointer transition rounded-full g-red-500">
+                        <Share className="size-4 g-blue-500"/>
+                    </div>
+                </div>
+            </div>
+            
+            <div className="h-11 mx-5 rounded-full mt-5 border-1 border-neutral-600 g-red-500">
+                <input type="text" placeholder="Join the conversation" className="w-full h-full outline-none px-6 text-[13px] text-white placeholder-shown:text-neutral-500"></input>
+            </div>
+
+            <div className="flex-1">
+                <FocusImageCommentCard/>
+                <FocusImageCommentCard/>
+                <FocusImageCommentCard/>
+            </div>
+            
+        </div>
+    )
+}
+
+function FocusImageCommentCard({className, dateProps, message}) {
+    let commentContent = 
+        <div className="h-7 w-full text-[13px] g-red-700">
+            HIDUP JOKOWII!!
+        </div>
+
+    return (
+        <div className={`${className} flex flex-col w-full mt-5 g-indigo-200 px-5 py-2 gap-2 border-y-1 border-neutral-600/60`}>
+            <div className="flex g-orange-500 my-3 gap-3">
+                {/* <div className="block bg-red-500 w-10 h-full">
+                    
+                </div> */}
+                <img className="w-10 h-10 rounded-full overflow-hidden" src="../../assets/anya.jpg" alt="profile picture"></img>
+                <div className="flex flex-col flex-1 g-blue-500 gap-1">
+                    <div className="flex gap-3  items-center g-green-400">
+                        <a href="" className="text-[13px] text-neutral-200 transition leading-none hover:text-neutral-300 g-red-300">Raven Christian</a>
+                        <p className={`${dateProps} text-neutral-500 text-[10px] mb-[1px] h-fit leading-none g-blue-400`}>11 Des 12:26</p>
+                    </div>
+                    {commentContent}
+                    <ThreeGridImages/>
+                </div>
             </div>
         </div>
     )
 }
+
 
 function ComplaintTab({setFocusImage}) {
     return (
