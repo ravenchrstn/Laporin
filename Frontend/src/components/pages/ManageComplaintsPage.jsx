@@ -47,7 +47,7 @@ export default function ManageComplaintsPage({userMenusWithProps, adminMenusWith
         <div className="g-red-500 font-inter flex flex-col min-h-dvh">
             <main className="screen-831:flex g-red-500">
                 <div className={`${focusImage? "flex" : "hidden"} min-h-dvh fixed top-0 left-0 w-full h-dvh g-red-500 bg-neutral-900/80 justify- z-999`}>
-                    <ImageFocusFromGrid/>
+                    <ImageFocusFromGrid setFocusImage={setFocusImage}/>
                     <ImageFocusComment chevronClassName="hidden md:flex"/>
                 </div>
                 <LeftSidebar className="xl:w-sidebar-width" userMenusWithProps={userMenusWithProps} adminMenusWithProps={adminMenusWithProps}/>
@@ -222,22 +222,22 @@ function ThreeGridImages({className, setFocusImage}) {
             <button className="row-span-2 bg-red-400 cursor-pointer hover:opacity-85 transition" onClick={() => {setFocusImage(true)}}>
                 <img src="../../../assets/windahh.jpg" className="w-full h-full object-cover"></img>
             </button>
-            <button className="g-blue-400 cursor-pointer hover:opacity-85 transition">
+            <button className="g-blue-400 cursor-pointer hover:opacity-85 transition" onClick={() => {setFocusImage(true)}}>
                 <img src="../../../assets/windahh.jpg" className="w-full h-full object-cover"></img>
             </button>
-            <button className="col-start-2 g-green-400 cursor-pointer hover:opacity-85 transition">
+            <button className="col-start-2 g-green-400 cursor-pointer hover:opacity-85 transition" onClick={() => {setFocusImage(true)}}>
                 <img src="../../../assets/windahh.jpg" className="w-full h-full object-cover"></img>
             </button>
         </div>
     )
 }
 
-function ImageFocusFromGrid({chevronClassName}) {
+function ImageFocusFromGrid({chevronClassName, setFocusImage}) {
     // kalau ada post, tampilin comment juga
     return (
         <div className="flex flex-1 justify-center relative items-center g-red-500 w-full md:w-auto">
-            <button className="absolute top-2 right-1 p-2 rounded-full g-red-500 cursor-pointer bg-neutral-800/90 hover:bg-neutral-600/50">
-                <XMark className="size-5"/>
+            <button className="absolute top-2 right-1 p-2 rounded-full g-red-500 cursor-pointer bg-neutral-800/90 hover:bg-neutral-600/50" onClick={() => {setFocusImage(false)}}>
+                <XMark className="size-4"/>
             </button>
             <div className="absolute left-0 bg-neutral-800 hover:bg-neutral-800/80 cursor-pointer transition rounded-full p-2 stroke-3">
                 <LongLeftArrow className="size-4 w-full g-blue-200" isLeft={true}/>

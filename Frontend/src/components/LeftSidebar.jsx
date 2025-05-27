@@ -5,7 +5,11 @@ export default function LeftSidebar({className, userMenusWithProps, adminMenusWi
     const bottomMenus = [
         {
             name: "More",
-            image: <Ellipsis className="mx-auto"/>
+            image: 
+            <div className="bg-r">
+                <div></div>
+                <Ellipsis className="mx-auto size-7"/>
+            </div>
         },
         {
             name: "Nama User",
@@ -36,18 +40,18 @@ export default function LeftSidebar({className, userMenusWithProps, adminMenusWi
                             </li>
                         ))}
                     </ul>
-                    <ul className="flex flex-col mb-7 gap-2 text-[15px] text-white font-light">
+                    <ul className="flex flex-col mb-7 gap-2 text-[13.5px] text-white font-light">
                         {bottomMenus.map((item) => {
                             let widthSelection = "w-8/10";
                             if (item.name === bottomMenus[1].name) widthSelection = "w-9/10";
                             return (
                                 <li key={item.name} className="flex">
-                                    <div className={`${widthSelection} flex mx-auto justify-center cursor-pointer rounded-full aspect-1/1
+                                    <div className={`${widthSelection} flex mx-auto justify-center cursor-pointer rounded-full aspect-1/1 g-red-500
                                     xl:ml-11 xl:py-2 xl:pl-3 xl:pr-6 xl:w-fit xl:aspect-auto xl:gap-4 hover:bg-neutral-700/50 transition`}>
-                                        <div className="w-9 my-auto xl:my-0">
+                                        <div className="w-9 my-auto xl:my-0 g-green-500">
                                             {item.image}
                                         </div>
-                                        <p className="hidden items-center cursor-pointer
+                                        <p className="hidden g-blue-200 items-center cursor-pointer
                                         xl:flex">
                                             {item.name}
                                         </p>
