@@ -6,7 +6,8 @@ import Bookmark from './icons/Bookmark';
 import Sun from './icons/Sun';
 import { RightLeftArrow } from './icons/Arrow';
 import Logout from './icons/Logout';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import Profile from './icons/Profile';
 
 export default function LeftSidebar({className, userMenusWithProps, adminMenusWithProps}) {
     const [isEllipsisMenuOpened, setIsEllipsisMenuOpened] = useState(false);
@@ -41,48 +42,34 @@ export default function LeftSidebar({className, userMenusWithProps, adminMenusWi
     const bottomMenus = [
         {
             name: "More",
-            menu: (name) => (
+            menu: 
                 <>
                     <div className={`absolute flex flex-col text-[15px] font-semibold rounded-xl bg-charcoal-black left-0 bottom-110/100 w-65 h-fit shadow-neutral-600 shadow-[0px_0px_12px_1px] z-999  ${isEllipsisMenuOpened? "flex" : "hidden"}`}>
                         {ellipsisMenus.map((item) => (
-                            <div className="flex gap-6 last:rounded-b-xl first:rounded-t-xl hover:bg-neutral-600/60 transition px-6 py-3 cursor-pointer">
+                            <div key={item.name} className="flex gap-6 last:rounded-b-xl first:rounded-t-xl hover:bg-neutral-600/60 transition px-6 py-3 cursor-pointer">
                                 {item.image}
                                 <span>{item.name}</span>
                             </div>
                         ))}
                     </div>
-
-                    <button className="relative w-9 aspect-1/1 my-auto xl:my-0 cursor-pointer hover:bg-neutral-600/60 xl:pointer-events-none transition mx-auto g-green-500 rounded-full" 
-                        onClick={() => {
-                            if (isEllipsisMenuOpened) setIsEllipsisMenuOpened(false)
-                            else setIsEllipsisMenuOpened(true)
-                        }}>
-                        <Ellipsis className="mx-auto size-7.5"/>
-                    </button>
-                    <p className="hidden g-blue-200 my-auto items-center cursor-pointer
-                    xl:flex">
-                        {name}
-                    </p>
-                </>
-            )      
+                    <div className="my-auto p-1 hover:bg-neutral-600/60 mx-auto xl:my-0 cursor-pointer rounded-full xl:p-0 g-red-500">
+                        <Ellipsis className="size-8 g-blue-500"/>
+                    </div>
+                </>    
         },
         {
             name: "Nama User",
-            menu: (name) => (
+            menu: 
                 <>
-                    <div className="my-auto mx-auto xl:my-0 cursor-pointerrounded-full xl:p-0">
+                    <div className="xl:my-0 cursor-pointerrounded-full xl:p-0">
                         <User className="size-9"/>
                     </div>
-                    <p className="hidden g-blue-200 my-auto items-center cursor-pointer
-                        xl:flex">
-                        {name}
-                    </p>
                 </>
-            )
         }
     ]
 
     return (
+        
         <aside className={`${className} w-15 top-0 sticky h-dvh hidden font-inter border-r-1 border-neutral-600/60
         screen-831:block`}>
             <div className="flex flex-col w-full h-full">
@@ -106,21 +93,22 @@ export default function LeftSidebar({className, userMenusWithProps, adminMenusWi
                         ))}
                     </ul>
                     <ul className="flex flex-col mb-7 gap-4 text-[13.5px] text-white font-light">
-                        {bottomMenus.map((item) => {
-                            return (
-                                <li key={item.name} className="flex">
-                                    <button className={`w-7/10 flex relative g-red-500 mx-auto transition
-                                    xl:hover:bg-neutral-600/60 xl:cursor-pointer xl:rounded-full
-                                    xl:ml-11 xl:py-2 xl:pl-3 xl:pr-6 xl:w-fit xl:aspect-auto xl:gap-4`} onClick={ () => {
-                                        //  && window.innerWidth >= 1024
-                                        setIsEllipsisMenuOpened(false);
-                                        if (item.name === "More" && !isEllipsisMenuOpened) setIsEllipsisMenuOpened(true);
-                                    }}>
-                                        {item.menu(item.name)}
-                                    </button>
-                                </li>
-                            )
-                        })}
+                        {bottomMenus.map((item) => (
+                            <li key={item.name} className="flex">
+                                <div className={`w-7/10 flex relative g-red-500 mx-auto transition g-indigo-200 justify-center
+                                xl:hover:bg-neutral-600/60 xl:cursor-pointer xl:rounded-full
+                                xl:ml-11 xl:py-2 xl:pl-3 xl:pr-6 xl:w-fit xl:aspect-auto xl:gap-4`} onClick={ () => {
+                                    //  && window.innerWidth >= 1024
+                                    setIsEllipsisMenuOpened(false);
+                                    if (item.name === "More" && !isEllipsisMenuOpened) setIsEllipsisMenuOpened(true);}}>
+                                    {item.menu}
+                                    <p className="hidden g-blue-200 my-auto items-center cursor-pointer
+                                    xl:flex">
+                                        {item.name}
+                                    </p>
+                                </div>
+                            </li>
+                        ))}
                     </ul>
                 </nav>
             </div>

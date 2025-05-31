@@ -14,7 +14,7 @@ export default function PostText({className, h1Props, textProps, anchorProps}) {
             lg:w-[calc(100%-32px)]`}>
                 
             </div> */}
-            <p className={`${className} ${textProps} g-yellow-400 ${showMore? "" : "max-h-19"} overflow-hidden text-white mx-auto ${showMore? "whitespace-pre-line" : "line-clamp"}`}>
+            <p className={`${className} ${textProps} g-yellow-400 ${showMore? "" : "max-h-19"} overflow-hidden mx-auto ${showMore? "whitespace-pre-line" : "line-clamp"}`}>
                 {text}
             </p>
             <button className={`${anchorProps} text-blue-500 g-red-200 w-fit cursor-pointer g-red-200 flex-col hover:text-blue-600 transition font-medium h-fit`} onClick={() => {

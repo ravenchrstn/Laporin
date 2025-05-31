@@ -5,12 +5,12 @@ import DropDown from './DropDown';
 
 export default function PostInputBox() {
     return (
-        <div className="w-full flex px-6 pt-6 pb-3 flex-col gap-4 mx-auto bg-background-post rounded-2xl">
+        <div className="w-full flex flex-col gap-4 mx-auto bg-background-post rounded-2xl">
             <DropDown/>
             <TextareaAutosize
             placeholder="Lagi mikirin apa?" 
             spellCheck={false}
-            className="post-input-area w-full text-[16px] text-white outline-none placeholder-neutral-500 placeholder:text-[16px] px-2 resize-none react-textarea-autosize border-b-1 border-neutral-600/60 pb-4" 
+            className="post-input-area w-full text-[14px] text-white outline-none placeholder-neutral-500 placeholder:text-[14px] px-2 resize-none react-textarea-autosize border-b-1 border-neutral-600/60 pb-4" 
             minRows={2}/>
             <div className="flex h-fit justify-between px-2">
                 <div className="flex gap-7">

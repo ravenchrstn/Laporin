@@ -20,6 +20,7 @@ import Comment from "../icons/Comment";
 import Bookmark from "../icons/Bookmark";
 import { LeftArrow, RightArrow } from "../icons/Arrow";
 import XMark from "../icons/XMark";
+import { ThreeGridImages } from "../GridImages";
 
 export default function ManageComplaintsPage({userMenusWithProps, adminMenusWithProps}) {
     let discussionCardIds = [1, 2, 3, 4, 5, 6];
@@ -143,9 +144,21 @@ function DiscussionCard({id, setFocusImage}) {
         <div className="flex mt-8 first:mt-7 last:mb-6 bg-neutral-800/40 rounded-2xl mx-[7.5dvw] screen-630:mx-[12dvw] md:mx-[17.5dvw] screen-831:mx-[20dvw] lg:mx-[3dvw] 2xl:mx-[4dvw]">
             {/* <div className="min-w-2 rounded-full g-red-700"></div> */}
             <div className="flex flex-col min-w-0 w-full g-yellow-600">
-                <span className="mt-3 mx-6 text-[19px] font-extrabold text-red-500">
-                    Need Attention!
-                </span>
+                    <div className="mt-3 mx-6 flex justify-between items-center g-green-200">
+                        <span className="text-[19px] font-extrabold text-red-500">
+                            Need Attention!
+                        </span>
+                        <div className="w-6 h-fit relative justify-center g-red-900">
+                            <input id={`pinCheckbox-${id}`} type="checkbox" className="peer sr-only"></input>
+                            <label htmlFor={`pinCheckbox-${id}`} className="block peer-checked:hidden cursor-pointer">
+                                <Pin className="size-[14px] mx-auto hover:fill-white-hover"/>
+                            </label>
+                            <label htmlFor={`pinCheckbox-${id}`} className="hidden peer-checked:block cursor-pointer">
+                                <Unpin className="size-[14px] mx-auto hover:fill-white-hover"/>
+                            </label>  
+                        </div>
+                    </div>
+                    
                 <div className="mid-top flex g-slate-500 justify-between mx-6 gap-5 g-amber-400">
                     <span className="h-fit flex-1 my-auto g-red-500 truncate text-[16px]/5 font-bold g-red-300 hover:text-white-hover transition cursor-pointer">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit modi ad debitis vel laudantium mollitia omnis, aliquam consequuntur reprehenderit minima.
@@ -158,7 +171,7 @@ function DiscussionCard({id, setFocusImage}) {
                         <div id={`menu-${id}`} className={`absolute right-0 rounded-lg shadow-neutral-600 shadow-[0px_0px_12px_1px] w-70 bg-charcoal-black hidden peer-checked:block z-997 ${additionalMenuProps}`}>
                             {complaintMenus.map((item) => (
                                 <div key={item.Name} className="g-blue-500 flex px-5 gap-5 hover:bg-neutral-600/60 transition py-3.5 first:mt-0 first:rounded-t-lg last:rounded-b-lg">
-                                    <item.Icon className="size-5 my-auto g-red-500"/>
+                                    <item.Icon className="size-5 my-auto g-red-500 stroke-white"/>
                                     <span className="flex h-fit g-red-500 justify-center text-[15px] font-semibold my-auto leading-none">{item.Name}</span>
                                 </div>
                             ))}
@@ -167,7 +180,6 @@ function DiscussionCard({id, setFocusImage}) {
                 </div>
                 <div className="flex flex-col mt-1.5 g-blue-500">
                     <div className="flex g-red-200 gap-4 mx-6 text-neutral-300/70">
-                        <span className="leading-none text-[11px] h-fit g-red-500 font-extralight">Reported at: May, 17 2025</span>
                         <span className="leading-none text-[11px] h-fit g-red-500 font-extralight">Deadline at: May, 20 2025</span>
                     </div>
                     <div className="flex min-w-0 pl-6 pr-5.5 mt-2 p-0.5 gap-2 hover:bg-neutral-600/60 transition cursor-pointer g-red-500 items-center">
@@ -177,7 +189,8 @@ function DiscussionCard({id, setFocusImage}) {
                     </div>
                 </div>
                 <ThreeGridImages className="mx-6 mt-2 h-60" setFocusImage={setFocusImage}/>
-                <div className="mid-bottom flex g-blue-500 cursor-pointer hover:bg-neutral-600/60 transition p-6">
+                {/* <div className="bg-neutral-600 h-[1px] mt-5"></div> */}
+                <div className="mid-bottom flex g-blue-500 cursor-pointer hover:bg-neutral-600/60 transition p-3 mt-5 border-1 rounded-xl border-neutral-500/70">
                     <img src="../../../assets/anya.jpg" className="w-10 rounded-full aspect-1/1 my-auto mr-4"></img>
                     <div className="flex min-w-0 w-full gap-5 g-purple-400">
                         <div className="flex flex-col min-w-0 justify-between mb-0.5 g-red-200">
@@ -194,17 +207,7 @@ function DiscussionCard({id, setFocusImage}) {
                             </p> 
                         </div>
                         
-                        <div id="rightUserComplaintInformation" className="flex flex-col ml-auto mb-0.5 justify-between g-sky-300">
-                            <div className="w-6 h-fit relative justify-center g-red-900">
-                                <input id={`pinCheckbox-${id}`} type="checkbox" className="peer sr-only"></input>
-                                <label htmlFor={`pinCheckbox-${id}`} className="block peer-checked:hidden cursor-pointer">
-                                    <Pin className="size-[14px] mx-auto hover:fill-white-hover"/>
-                                </label>
-                                <label htmlFor={`pinCheckbox-${id}`} className="hidden peer-checked:block cursor-pointer">
-                                    <Unpin className="size-[14px] mx-auto hover:fill-white-hover"/>
-                                </label>  
-                            </div>
-                            
+                        <div id="rightUserComplaintInformation" className="flex flex-col ml-auto mb-0.5 justify-end g-sky-300">
                             <span className="flex mx-auto text-[12px] b-blue-200 leading-none font-bold g-red-500">
                                 10
                             </span>
@@ -214,22 +217,6 @@ function DiscussionCard({id, setFocusImage}) {
             </div>
         </div>
     )   
-}
-
-function ThreeGridImages({className, setFocusImage}) {
-    return (
-        <div className={`${className} grid grid-cols-2 grid-rows-2 g-amber-200 screen-630:h-90`}>
-            <button className="row-span-2 bg-red-400 cursor-pointer hover:opacity-85 transition" onClick={() => {setFocusImage(true)}}>
-                <img src="../../../assets/windahh.jpg" className="w-full h-full object-cover"></img>
-            </button>
-            <button className="g-blue-400 cursor-pointer hover:opacity-85 transition" onClick={() => {setFocusImage(true)}}>
-                <img src="../../../assets/windahh.jpg" className="w-full h-full object-cover"></img>
-            </button>
-            <button className="col-start-2 g-green-400 cursor-pointer hover:opacity-85 transition" onClick={() => {setFocusImage(true)}}>
-                <img src="../../../assets/windahh.jpg" className="w-full h-full object-cover"></img>
-            </button>
-        </div>
-    )
 }
 
 function ImageFocusFromGrid({chevronClassName, setFocusImage}) {
@@ -258,7 +245,7 @@ function ImageFocusComment({className}) {
     return (
         <div className={`${className} w-95 bg-charcoal-black pt-7 hidden overflow-y-auto md:block`}>
             <div className="px-6">
-                <PostHeader/>
+                <PostHeader imgProps="size-10" rightProps="justify-center text-neutral-200 flex-col" className="gap-5"/>
                 <div className="flex flex-col mt-2.5 g-red-500">
                     <PostText h1Props="text-[18px] font-extrabold g-blue-200" textProps="text-[12.5px] mt-2 g-yellow-200" anchorProps="text-xs mt-[1px] g-green-400"/>
                 </div>
@@ -330,7 +317,6 @@ function FocusImageCommentCard({className, dateProps, message}) {
     )
 }
 
-
 function ComplaintTab({setFocusImage}) {
     return (
         <div className="g-red-200 mt-7">
@@ -347,7 +333,7 @@ function ComplaintCard({setFocusImage}) {
         <div className="border-t-1 border-t-neutral-600">
             <div className="g-red-500 mt-4 mb-6 mx-[7.5dvw] screen-630:mx-[12dvw] md:mx-[17.5dvw] screen-831:mx-[20dvw] lg:mx-[3dvw] 2xl:mx-[4dvw]">
                 <div className="flex flex-col g-indigo-900">
-                    <PostHeader className="g-yellow-600"/>
+                    <PostHeader imgProps="size-10" className="g-yellow-600 gap-5" rightProps="justify-center g-blue-500 text-neutral-200 flex-col"/>
                     <span className="mt-3 text-[15px] font-bold text-red-500">
                         Need Attention!
                     </span>

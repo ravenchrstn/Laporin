@@ -21,7 +21,7 @@
     --color-palletez: #7077A1;
     --color-post-button: #e8e8e8;
     --color-charcoal-black: #121212; 
-    --color-background-post: #1c1c1c;
+    --color-black-2: #0f0f0f;
     --color-white-hover: var(--color-gray-300);
     --margin-5%: 5%;
     --padding-header: 40px;
@@ -37,6 +37,7 @@
     --font-inter: Inter, "sans-serif";
     --breakpoint-screen-630: 39.375rem;
     --breakpoint-screen-831: 51.938rem;
+    --breakpoint-screen-910: 56.875rem;
     --breakpoint-screen-1753: 109.563rem;
     --padding-post-padding-lg: 12rem;
     --width-sidebar-width: 20%;

@@ -4,7 +4,7 @@ import PostShare from './PostShare';
 
 export default function PostFooter({className}) {
     return (
-        <div className={`${className} flex flex-row gap-4`}>
+        <div className={`${className} flex gap-4`}>
             <div className="w-fit h-full px-5 py-3 rounded-full bg-neutral-700/40">
                 <PostVote/>
             </div>

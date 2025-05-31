@@ -7,7 +7,8 @@ import Notification from './components/icons/Notification';
 import Profile from './components/icons/Profile';
 import ManageComplaint from './components/icons/ManageComplaint';
 import ManageComplaintsPage from './components/pages/ManageComplaintsPage';
-import Testing from './components/Testing';
+import ComplaintDetailPage from './components/pages/ComplaintDetailPage';
+import LeftSidebar from './components/LeftSidebar';
 
 export default function App() {
     const userMenus = [
@@ -74,10 +75,11 @@ export default function App() {
         }
     });
     return (
-    // <HomePage userMenusWithProps={userMenusWithProps}
-    //           adminMenusWithProps={adminMenusWithProps}/>
-    <ManageComplaintsPage userMenusWithProps={userMenusWithProps}
-                        adminMenusWithProps={adminMenusWithProps}/>
-    // <Testing/>
+        // <LeftSidebar/>
+        // <HomePage userMenusWithProps={userMenusWithProps}
+        //           adminMenusWithProps={adminMenusWithProps}/>
+        // <ManageComplaintsPage userMenusWithProps={userMenusWithProps}
+        //                     adminMenusWithProps={adminMenusWithProps}/>
+        <ComplaintDetailPage userMenusWithProps={userMenusWithProps} adminMenusWithProps={adminMenusWithProps}/>
     )
 }
