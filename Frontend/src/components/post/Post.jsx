@@ -12,8 +12,8 @@ export default function Post() {
             lg:w-45/100
             xl:w-6/10
             screen-1753:w-45/100">
-                <PostHeader imgProps="size-10" rightProps="g-red-500 text-neutral-200 flex-col" className="gap-5 px-5 screen-630:px-0"/>
-                <PostText h1Props="text-[18px] mt-3" textProps="text-[13px] mt-2" anchorProps="text-[11.5px] px-5 screen-630:px-0" className="px-5 screen-630:px-0"/>
+                <PostHeader imgProps="size-10" rightProps="g-red-500 text-neutral-200 flex-col justify-center" className="gap-5 px-5 screen-630:px-0"/>
+                <PostText h1Props="text-[18px] mt-3" textProps="text-[13px] mt-2" anchorProps="text-[11.5px] px-5 screen-630:px-0" className="px-5 screen-630:px-0" assignedUnit="px-5 screen-630:px-0"/>
                 <PostImage/>
                 <PostFooter className="mt-4 px-5 screen-630:px-0"/>
             </div>

@@ -1,10 +1,12 @@
 import { useState } from "react";
+import AssignedUnit from "../AssignedUnit";
 
-export default function PostText({className, h1Props, textProps, anchorProps}) {
+export default function PostText({className, h1Props, textProps, anchorProps, assignedUnit}) {
     const text = `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore tempora iste suscipit! Velit quae labore rerum soluta accusantium veritatis quos facere, consequatur itaque, a pariatur. Delectus ea tenetur rem at quam eius obcaecati mollitia, nihil nisi culpa. Neque doloribus eaque alias aliquam, vero illum earum ad, explicabo qui recusandae quasi quas molestiae, tempora libero nobis magnam! Similique rem velit voluptatibus veniam, fugit, maxime at dolorum, earum hic laborum eligendi ducimus corporis. Eaque aperiam, eveniet totam nemo officiis porro ipsa laborum quam delectus, vel debitis, esse eos excepturi consequuntur quidem magnam!`;
     const [showMore, setShowMore] = useState(false);
     return (
         <>
+            <AssignedUnit className={`${assignedUnit} mt-4 mb-8 g-blue-500`}/>
             <h1 className={`${className} ${h1Props} w-full overflow-hidden font-bold text-white mx-auto g-red-500`}>
                 Kemanggisan yang indah
             </h1>

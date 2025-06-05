@@ -21,6 +21,7 @@ import Bookmark from "../icons/Bookmark";
 import { LeftArrow, RightArrow } from "../icons/Arrow";
 import XMark from "../icons/XMark";
 import { ThreeGridImages } from "../GridImages";
+import AssignedUnit from "../AssignedUnit";
 
 export default function ManageComplaintsPage({userMenusWithProps, adminMenusWithProps}) {
     let discussionCardIds = [1, 2, 3, 4, 5, 6];
@@ -182,6 +183,7 @@ function DiscussionCard({id, setFocusImage}) {
                     <div className="flex g-red-200 gap-4 mx-6 text-neutral-300/70">
                         <span className="leading-none text-[11px] h-fit g-red-500 font-extralight">Deadline at: May, 20 2025</span>
                     </div>
+                    <AssignedUnit className="mx-6 mt-5 mb-1"/>
                     <div className="flex min-w-0 pl-6 pr-5.5 mt-2 p-0.5 gap-2 hover:bg-neutral-600/60 transition cursor-pointer g-red-500 items-center">
                         <Response className="size-5 g-red-200" color="white"/>
                         <span className="flex-1 text-[12px]/3 truncate font-light h-fit mb-[1.5px] g-red-200">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempora voluptate nesciunt accusamus alias dignissimos, aspernatur laudantium dolores architecto. Consequatur, ut.</span>

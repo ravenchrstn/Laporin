@@ -1,5 +1,4 @@
 // import { useState } from 'react'
-import LoginPage from './pages/Login.jsx'
 import './tailwind.css'
 import HomePage from './components/pages/HomePage';
 import Home from './components/icons/Home';
@@ -78,10 +77,10 @@ export default function App() {
     });
     return (
         // <LeftSidebar/>
-        // <HomePage userMenusWithProps={userMenusWithProps}
-        //           adminMenusWithProps={adminMenusWithProps}/>
+        <HomePage userMenusWithProps={userMenusWithProps}
+                  adminMenusWithProps={adminMenusWithProps}/>
         // <ManageComplaintsPage userMenusWithProps={userMenusWithProps}
         //                     adminMenusWithProps={adminMenusWithProps}/>
-        <ComplaintDetailPage userMenusWithProps={userMenusWithProps} adminMenusWithProps={adminMenusWithProps}/>
+        // <ComplaintDetailPage userMenusWithProps={userMenusWithProps} adminMenusWithProps={adminMenusWithProps}/>
     )
 }

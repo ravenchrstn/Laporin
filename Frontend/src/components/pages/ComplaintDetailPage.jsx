@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Footer from "../Footer";
 import { ThreeGridImages } from "../GridImages";
 import { ChatBubble } from "../icons/ChatBubble";
@@ -7,6 +7,7 @@ import LeftSidebar from "../LeftSidebar";
 import PostHeader from "../post/PostHeader";
 import PostText from "../post/PostText";
 import ScrollToTop from "../icons/ScrollToTop";
+import AssignedUnit from "../AssignedUnit";
 
 export default function ComplaintDetailPage({userMenusWithProps, adminMenusWithProps}) {
     const complaintDetailRef = useRef();
@@ -45,6 +46,7 @@ export default function ComplaintDetailPage({userMenusWithProps, adminMenusWithP
                         <h2 className="text-red-500 font-bold text-[19px] leading-none">Need Attention!</h2>
                         <h3 className="text-[11px] font-bold mt-1 leading-none text-neutral-200">Deadline at: 05 May 2025</h3>
                     </div>
+                    <AssignedUnit className="mx-7 my-3 max-w-[750px]"/>
                     
                     <div className="flex max-w-[750px] g-green-900 justify-between flex-col sm:flex-row mx-7 mb-5 mt-3 gap-6">
                         <div className="flex flex-col gap-2 mt g-blue-500 text-neutral-200 w-fit max-w-[750px]">
@@ -89,7 +91,7 @@ export default function ComplaintDetailPage({userMenusWithProps, adminMenusWithP
                     <div ref={complaintDetailRef} className="w-full h-[1px] bg-neutral-800"></div>
                     <div className="mx-7 mt-4 g-blue-500 max-w-[750px] lg:mx-auto">
                         <h2 className="text-xl font-extrabold h-fit text-neutral-200 leading-none">Complaint Detail</h2>
-                        <PostText h1Props="hidden" textProps="text-neutral-200 mt-2 text-sm" anchorProps="text-[13px]"/>
+                        <PostText h1Props="hidden" textProps="text-neutral-200 mt-2 text-sm" anchorProps="text-[13px]" assignedUnit="hidden"/>
                         <ThreeGridImages className="mt-3 h-80"/>
                     </div>
                     
