@@ -7,10 +7,16 @@ app.use(cors());
 app.use(express.json())
 
 const postRoutes = require("./routes/postRoutes")
-app.use(postRoutes);
+app.use(postRoutes)
+
+const complaintRoutes = require("./routes/complaintRoutes")
+app.use(complaintRoutes)
+
+const userRoutes = require("./routes/userRoutes")
+app.use(userRoutes)
 
 app.listen(port, () => {
     console.log(`App is listening on port ${port}`)
 })
 
-module.exports = app;
+module.exports = app

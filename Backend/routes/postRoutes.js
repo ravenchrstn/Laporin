@@ -1,8 +1,10 @@
 const express = require("express")
 const router = express.Router();
-const postController = require("../controllers/postControllers")
+const postControllers = require("../controllers/postControllers")
 
-router.get("/posts/", postController.getRandomPostsWithExclude)
-router.post("/posts/", postController.saveExcludedPostIds)
+router.get("/posts/", postControllers.getUpdatedPosts)
+router.post("/posts/create/", postControllers.createPost)
+router.post("/posts/delete/", postControllers.deletePost)
+router.post("/posts/update/", postControllers.updatePost)
 
 module.exports = router;

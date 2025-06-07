@@ -9,9 +9,9 @@ function randomizeArray(array) {
 
 function randomizeArrayWithLimit(array, limit) {
     let newArray = [];
-    for (let i = 0; i < limit; i++) {
+    while (newArray.length < limit) {
         const j = Math.floor(Math.random() * array.length);
-        newArray.push(array[j]);
+        if (!newArray.includes(array[j])) newArray.push(array[j]);
     }
     return newArray;
 }
