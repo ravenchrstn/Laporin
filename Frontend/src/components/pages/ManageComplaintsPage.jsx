@@ -12,9 +12,7 @@ import Unpin from "../icons/Unpin";
 import Searchbar from "../Searchbar";
 import LeftSidebar from "../LeftSidebar";
 import PostHeader from "../post/PostHeader";
-import PostText from "../post/PostText";
-import Chevron, { BuiltChevron } from "../icons/Chevron";
-import PostFooter from "../post/PostFooter";
+import PostContent from "../post/PostContent";
 import Upvote from "../icons/Upvote";
 import Comment from "../icons/Comment";
 import Bookmark from "../icons/Bookmark";
@@ -22,12 +20,33 @@ import { LeftArrow, RightArrow } from "../icons/Arrow";
 import XMark from "../icons/XMark";
 import { ThreeGridImages } from "../GridImages";
 import AssignedUnit from "../AssignedUnit";
+import { userMenus, policeMenus } from "../Menus.jsx";
+import axios from "axios";
+import { formatDateToIndonesia } from "../../utils/formatDate.js";
 
-export default function ManageComplaintsPage({userMenusWithProps, adminMenusWithProps}) {
-    let discussionCardIds = [1, 2, 3, 4, 5, 6];
+export default function ManageComplaintsPage({user, setPage}) {
+    const severityTexts = {
+        critical: {
+            text: "Need Attention!",
+            color: "text-red-500"
+        },
+        high: {
+            text: "High Priority",
+            color: "text-orange-400"
+        },
+        medium: {
+            text: "Medium Priority",
+            color: "text-yellow-400"
+        },
+        low: {
+            text: "Low Priority",
+            color: "text-gray-400"
+        }
+    }
 
-    const [activeTab, setActiveTab] = useState("Complaints");
+    const [activeTab, setActiveTab] = useState("Discussions");
     const [focusImage, setFocusImage] = useState(null);
+    
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     }, [activeTab])
@@ -39,10 +58,9 @@ export default function ManageComplaintsPage({userMenusWithProps, adminMenusWith
         return (() => document.body.style.overflow = "auto"); 
     }, [focusImage])
     
-    
     let content = {
-        "Discussions":  <DiscussionsTab discussionCardIds={discussionCardIds} setFocusImage={setFocusImage}/>,
-        "Complaints":   <ComplaintTab setFocusImage={setFocusImage}/>
+        "Discussions": <DiscussionsTab setFocusImage={setFocusImage} severityTexts={severityTexts}/>,
+        "Complaints": <ComplaintTab setFocusImage={setFocusImage} severityTexts={severityTexts}/>
     };
 
     return (
@@ -50,17 +68,17 @@ export default function ManageComplaintsPage({userMenusWithProps, adminMenusWith
             <main className="screen-831:flex g-red-500">
                 <div className={`${focusImage? "flex" : "hidden"} min-h-dvh fixed top-0 left-0 w-full h-dvh g-red-500 bg-neutral-900/80 z-999`}>
                     <ImageFocusFromGrid setFocusImage={setFocusImage}/>
-                    <ImageFocusComment chevronClassName="hidden md:flex"/>
+                    {/* <ImageFocusComment chevronClassName="hidden md:flex"/> */}
                 </div>
-                <LeftSidebar className="xl:w-sidebar-width" userMenusWithProps={userMenusWithProps} adminMenusWithProps={adminMenusWithProps}/>
+                <LeftSidebar className="xl:w-sidebar-width" userMenus={userMenus} policeMenus={policeMenus} setPage={setPage}/>
                 <div className="screen-831:flex-1 min-w-0 border-r-1 border-r-neutral-600/60">
                     <TabNavigator activeTab={activeTab} setActiveTab={setActiveTab}/>
                     <Searchbar className="peer-not-placeholder-shown:hidden mt-7 mx-[7.5dvw] screen-630:mx-[12dvw] md:mx-[17.5dvw] screen-831:mx-[20dvw] lg:mx-[3dvw] 2xl:mx-[4dvw]"/>
                     {content[activeTab]}
                 </div>
-                <InfoPanel className="hidden flex-1 lg:flex"/>
+                <RightInfoPanel className="hidden flex-1 lg:flex"/>
             </main>
-            <Footer userMenusWithProps={userMenusWithProps} adminMenusWithProps={adminMenusWithProps} className="mt-auto"/>
+            <Footer userMenus={userMenus} policeMenus={policeMenus} className="mt-auto"/>
         </div>
     )
 }
@@ -84,17 +102,47 @@ function TabNavigator({activeTab, setActiveTab}) {
     )
 }
 
-function DiscussionsTab({discussionCardIds, setFocusImage}) {
+function DiscussionsTab({setFocusImage, severityTexts}) {
+    let excludedReviewedComplaints = [1, 2, 3]
+    const [reviewedComplaints, setreviewedComplaints] = useState([])
+    
+    const fetchReviewedComplaints = async () => {
+        const response = await axios.post("http://localhost:3000/complaints/getupdatedreviewedcomplaints", {
+            excludedComplaintIds: excludedReviewedComplaints,
+            limit: 5
+        })
+        const reviewedComplaints = response.data.data
+        setreviewedComplaints(reviewedComplaints)
+    }
+    
+    useEffect(() => {
+        fetchReviewedComplaints()
+    }, [])
+
     return (
         <div className="g-red-500">
-            {discussionCardIds.map((item) => (
-                <DiscussionCard key={item} id={item} setFocusImage={setFocusImage}/>
+            {reviewedComplaints.map((complaint) => (
+                <DiscussionCard key={complaint.id} discussionCardData={complaint} severityTexts={severityTexts} setFocusImage={setFocusImage}/>
             ))}
         </div>
     )
 }
 
-function DiscussionCard({id, setFocusImage}) {
+function DiscussionCard({discussionCardData, setFocusImage, severityTexts}) {
+    const {id, post_id, status, reported_at, deadline_at, description, complaint_police_unit_id, headline, user_id, severity, message_id, is_edited, is_resolved, is_anonymous} = discussionCardData
+    const postHeaderData = {
+        user_id,
+        created_at: reported_at
+    }
+
+    const formattedDeadline = formatDateToIndonesia(deadline_at)
+
+    const postContentData = {
+        headline,
+        text: description,
+        is_edited
+    }
+
     const complaintMenus = [
         {
             Icon: Trash,
@@ -146,8 +194,8 @@ function DiscussionCard({id, setFocusImage}) {
             {/* <div className="min-w-2 rounded-full g-red-700"></div> */}
             <div className="flex flex-col min-w-0 w-full g-yellow-600">
                     <div className="mt-3 mx-6 flex justify-between items-center g-green-200">
-                        <span className="text-[19px] font-extrabold text-red-500">
-                            Need Attention!
+                        <span className={`text-[19px] font-extrabold ${severityTexts[severity].color}`}>
+                            {severityTexts[severity].text}
                         </span>
                         <div className="w-6 h-fit relative justify-center g-red-900">
                             <input id={`pinCheckbox-${id}`} type="checkbox" className="peer sr-only"></input>
@@ -162,7 +210,7 @@ function DiscussionCard({id, setFocusImage}) {
                     
                 <div className="mid-top flex g-slate-500 justify-between mx-6 gap-5 g-amber-400">
                     <span className="h-fit flex-1 my-auto g-red-500 truncate text-[16px]/5 font-bold g-red-300 hover:text-white-hover transition cursor-pointer">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit modi ad debitis vel laudantium mollitia omnis, aliquam consequuntur reprehenderit minima.
+                        {headline}
                     </span>
                     <div className="h-full p-[0.5px] mr-[2px] relative aspect-1/1 flex items-center cursor-pointer hover:bg-neutral-600/60 rounded-full transition g-sky-500">
                         <input type="checkbox" id={`ellipsis-toggle-${id}`} className="peer sr-only"/>
@@ -181,12 +229,14 @@ function DiscussionCard({id, setFocusImage}) {
                 </div>
                 <div className="flex flex-col mt-1.5 g-blue-500">
                     <div className="flex g-red-200 gap-4 mx-6 text-neutral-300/70">
-                        <span className="leading-none text-[11px] h-fit g-red-500 font-extralight">Deadline at: May, 20 2025</span>
+                        <span className="leading-none text-[11px] h-fit g-red-500 font-extralight">Deadline at: {formattedDeadline}</span>
                     </div>
                     <AssignedUnit className="mx-6 mt-5 mb-1"/>
                     <div className="flex min-w-0 pl-6 pr-5.5 mt-2 p-0.5 gap-2 hover:bg-neutral-600/60 transition cursor-pointer g-red-500 items-center">
                         <Response className="size-5 g-red-200" color="white"/>
-                        <span className="flex-1 text-[12px]/3 truncate font-light h-fit mb-[1.5px] g-red-200">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempora voluptate nesciunt accusamus alias dignissimos, aspernatur laudantium dolores architecto. Consequatur, ut.</span>
+                        <span className="flex-1 text-[12px]/3 truncate font-light h-fit mb-[1.5px] g-red-200">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, debitis reprehenderit id nulla, optio totam quia odio labore necessitatibus neque quam expedita. Sunt nam dolorem perferendis quidem sit perspiciatis blanditiis.
+                        </span>
                         <span className="font-light text-[10px]/3 h-fit text-neutral-300/60 g-red-500 mb-[3px]">Last Updated: 17.10</span>
                     </div>
                 </div>
@@ -244,12 +294,24 @@ function ImageFocusFromGrid({chevronClassName, setFocusImage}) {
 }
 
 function ImageFocusComment({className}) {
+    const postHeaderData = {
+        user_id: 5,
+        created_at: "2025-06-02 00:12:27"
+    }
+
+    const postContentData = {
+        headline: "KETABRAK GILA", 
+        text: "OY",
+        is_edited: false,
+        edited_at: "2025-06-02 00:12:27"
+    }
+
     return (
         <div className={`${className} w-95 bg-charcoal-black pt-7 hidden overflow-y-auto md:block`}>
             <div className="px-6">
-                <PostHeader imgProps="size-10" rightProps="justify-center text-neutral-200 flex-col" className="gap-5"/>
+                <PostHeader imgProps="size-10" rightProps="justify-center text-neutral-200 flex-col" className="gap-5" postHeaderData={postHeaderData}/>
                 <div className="flex flex-col mt-2.5 g-red-500">
-                    <PostText h1Props="text-[18px] font-extrabold g-blue-200" textProps="text-[12.5px] mt-2 g-yellow-200" anchorProps="text-xs mt-[1px] g-green-400"/>
+                    {/* <PostContent h1Props="text-[18px] font-extrabold g-blue-200" textProps="text-[12.5px] mt-2 g-yellow-200" anchorProps="text-xs mt-[1px] g-green-400" postContentData={postContentData}/> */}
                 </div>
             </div>
             
@@ -297,7 +359,14 @@ function ImageFocusComment({className}) {
 }
 
 function FocusImageCommentCard({className, dateProps, message}) {
-    let commentContent = <PostText className="mt-2" h1Props="hidden" textProps="text-[13px]" anchorProps="text-[12px] mt-1.5 leading-none"/>
+    const postContentData = {
+        headline: "KETABRAK GILA", 
+        text: "OY",
+        is_edited: false,
+        edited_at: "2025-06-02 00:12:27"
+    }
+    
+    // let commentContent = <PostContent className="mt-2" h1Props="hidden" textProps="text-[13px]" anchorProps="text-[12px] mt-1.5 leading-none" postContentData={postContentData}/>
 
     return (
         <div className={`${className} flex flex-col w-full first:mt-5 g-indigo-200 px-5 pt-5 pb-6 border-t-1 border-neutral-600`}>
@@ -319,27 +388,57 @@ function FocusImageCommentCard({className, dateProps, message}) {
     )
 }
 
-function ComplaintTab({setFocusImage}) {
+function ComplaintTab({setFocusImage, severityTexts}) {
+    let excludedPendingComplaintIds = [1, 2, 3]
+    const [pendingComplaints, setPendingComplaints] = useState([])
+    
+    const fetchPendingComplaints = async () => {
+        const response = await axios.post("http://localhost:3000/complaints/getupdatedpendingcomplaints", {
+            excludedComplaintIds: excludedPendingComplaintIds,
+            limit: 5
+        })
+        const pendingComplaints = response.data.data
+        setPendingComplaints(pendingComplaints)
+    }
+    
+    useEffect(() => {
+        fetchPendingComplaints()
+    }, [])
+
+
     return (
         <div className="g-red-200 mt-7">
-            <ComplaintCard setFocusImage={setFocusImage}/>
-            <ComplaintCard setFocusImage={setFocusImage}/>
-            <ComplaintCard setFocusImage={setFocusImage}/>
-            <ComplaintCard setFocusImage={setFocusImage}/>
+            {pendingComplaints?.map((pendingComplaint) => (
+                <ComplaintCard key={pendingComplaint.id} setFocusImage={setFocusImage} complaintCardData={pendingComplaint} severityTexts={severityTexts}/>
+            ))}
         </div>
     )
 }
 
-function ComplaintCard({setFocusImage}) {
+function ComplaintCard({setFocusImage, complaintCardData, severityTexts}) {
+    // console.log(complaintCardData)
+    const {id, post_id, status, reported_at, deadline_at, description, complaint_police_unit_id, headline, user_id, severity, message_id, is_edited, is_resolved, is_anonymous} = complaintCardData
+
+    const postHeaderData = {
+        user_id,
+        created_at: reported_at
+    }
+
+    const postContentData = {
+        headline,
+        text: description,
+        is_edited
+    }
+
     return (
         <div className="border-t-1 border-t-neutral-600">
             <div className="g-red-500 mt-4 mb-6 mx-[7.5dvw] screen-630:mx-[12dvw] md:mx-[17.5dvw] screen-831:mx-[20dvw] lg:mx-[3dvw] 2xl:mx-[4dvw]">
                 <div className="flex flex-col g-indigo-900">
-                    <PostHeader imgProps="size-10" className="g-yellow-600 gap-5" rightProps="justify-center g-blue-500 text-neutral-200 flex-col"/>
-                    <span className="mt-3 text-[15px] font-bold text-red-500">
-                        Need Attention!
+                    <PostHeader imgProps="size-10" className="g-yellow-600 gap-5" rightProps="justify-center g-blue-500 text-neutral-200 flex-col" postHeaderData={postHeaderData}/>
+                    <span className={`mt-3 text-[19px] font-bold ${severityTexts[severity].color}`}>
+                        {severityTexts[severity].text}
                     </span>
-                    <PostText className="g-blue-500" h1Props="text-[16px]" textProps="text-[12.5px] mt-1" anchorProps="text-[11.5px]"/>
+                    <PostContent className="g-blue-500" h1Props="text-[16px] mt-1" textProps="text-[12.5px] mt-1" anchorProps="text-[11.5px]" postContentData={postContentData} assignedUnitProps="hidden"/>
                     <ThreeGridImages className="mt-2.5 w-full h-60 g-teal-300" setFocusImage={setFocusImage}/>
                 </div>
 
@@ -363,7 +462,7 @@ function ComplaintCard({setFocusImage}) {
     )
 }
 
-function InfoPanel({className}) {
+function RightInfoPanel({className}) {
     return (
         <div className={`${className} flex flex-col sticky justify-center top-0 h-dvh g-red-500`}>
             <div className="flex flex-col w-fit g-red-200 h-fit mx-15 g-red-100">

@@ -81,11 +81,11 @@ export default function AssignedUnit({className}) {
         ]
 
     return (
-        <div className={`${className} relative g-yellow-900`}>
+        <div className={`${className} g-yellow-900`}>
             <span className="text-[15px] block font-bold g-green-500 leading-none">Assigned Unit</span>
             <div className="g-indigo-200 mt-2 flex flex-wrap gap-x-8 gap-y-4">
                 {units.map((unit, index) => (
-                    <div id={`unit-${index}`} className="relative flex g-blue-500 mt-1 gap-1.5">
+                    <div id={`unit-${index}`} className="flex g-blue-500 mt-1 gap-1.5">
                         <img src="../../../assets/humas_polri.png" className="size-8 cursor-pointer"></img>
                         <div className="flex flex-col justify-around g-red-200">
                             <button type="button" className="g-yellow-200 text-left leading-none font-medium text-[12px] text-neutral-200 cursor-pointer hover:text-neutral-300 transition">{unit.Name}</button>
@@ -95,7 +95,7 @@ export default function AssignedUnit({className}) {
                             }}>View Officers</button>
                         </div>
 
-                        <div ref={(el) => popUpRefs.current[index] = el} className={`absolute top-[125%] -left-[18px] w-55 rounded-lg py-1 bg-black shadow-neutral-600 shadow-[0px_0px_5px_1px] flex-col gap-y-1 flex z-995 ${openedUnit === index? "flex" : "hidden"}`}>
+                        <div ref={(el) => popUpRefs.current[index] = el} className={`absolute top-[125%] -left-[18px] w-55 rounded-lg py-1 bg-black shadow-neutral-600 shadow-[0px_0px_5px_1px] flex-col gap-y-1 flex ${openedUnit === index? "flex" : "hidden"}`}>
                             {unit.Officers.map((officer) => (
                                 <>
                                     <div className="x-auto h-12 g-red-500 mx-5 my-2 g-red-500 flex gap-3">

@@ -5,18 +5,18 @@ import { ChatBubble } from "../icons/ChatBubble";
 import Note from "../icons/Note";
 import LeftSidebar from "../LeftSidebar";
 import PostHeader from "../post/PostHeader";
-import PostText from "../post/PostText";
+import PostContent from "../post/PostContent";
 import ScrollToTop from "../icons/ScrollToTop";
 import AssignedUnit from "../AssignedUnit";
 
-export default function ComplaintDetailPage({userMenusWithProps, adminMenusWithProps}) {
+export default function ComplaintDetailPage({userMenus, policeMenus}) {
     const complaintDetailRef = useRef();
     const notesRef = useRef();
     const responsesRef = useRef();
 
     return (
         <div className="min-h-dvh flex flex-col g-blue-200 screen-831:flex-row">
-            <LeftSidebar className="xl:w-sidebar-width" userMenusWithProps={userMenusWithProps} adminMenusWithProps={adminMenusWithProps}/>
+            <LeftSidebar className="xl:w-sidebar-width" userMenus={userMenus} policeMenus={policeMenus}/>
             <button className="fixed flex aspect-1/1 bottom-20 right-5 p-2 rounded-full bg-white hover:bg-white-hover transition text-2xl z-999 shadow-white shadow-[0px_0px_7px_0px] cursor-pointer screen-831:hidden" onClick={
                 () => {
                     window.scrollTo({top:0, behavior:'smooth'})
@@ -91,7 +91,7 @@ export default function ComplaintDetailPage({userMenusWithProps, adminMenusWithP
                     <div ref={complaintDetailRef} className="w-full h-[1px] bg-neutral-800"></div>
                     <div className="mx-7 mt-4 g-blue-500 max-w-[750px] lg:mx-auto">
                         <h2 className="text-xl font-extrabold h-fit text-neutral-200 leading-none">Complaint Detail</h2>
-                        <PostText h1Props="hidden" textProps="text-neutral-200 mt-2 text-sm" anchorProps="text-[13px]" assignedUnit="hidden"/>
+                        <PostContent h1Props="hidden" textProps="text-neutral-200 mt-2 text-sm" anchorProps="text-[13px]" assignedUnit="hidden"/>
                         <ThreeGridImages className="mt-3 h-80"/>
                     </div>
                     
@@ -136,7 +136,7 @@ export default function ComplaintDetailPage({userMenusWithProps, adminMenusWithP
                     </div>
                 </div>
             </div>
-            <Footer userMenusWithProps={userMenusWithProps} adminMenusWithProps={adminMenusWithProps} lassName="mt-auto"/>
+            <Footer userMenus={userMenus} policeMenus={policeMenus} lassName="mt-auto"/>
         </div>
     )
 }
