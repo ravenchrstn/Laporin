@@ -1,7 +1,12 @@
 const userRepositories = require("../repositories/userRepositories")
 const bcrypt = require("bcrypt")
 exports.getAllUsers = async () => {
-    return userRepository.getAllUsers();
+    return userRepositories.getAllUsers();
+}
+
+exports.getUserById = async (id) => {
+    const [user] = await userRepositories.getUserById(id)
+    return user;
 }
 
 exports.authenticate = async (input) => {

@@ -5,9 +5,23 @@ exports.getAllComplaints = () => {
     return db.promise().query("SELECT * FROM complaints ORDER BY severity DESC")
 }
 
+exports.getComplaintById = (id) => {
+    return db.promise().query("SELECT * FROM complaints WHERE id = ?", [id])
+}
+
+exports.getUpdatedPendingComplaints = (excludedComplaintIds) => {
+    const placeholders = excludedComplaintIds.map(() => '?').join(',')
+    return db.promise().query(`SELECT * FROM complaints WHERE status = 'pending' AND id NOT IN (${placeholders}) ORDER BY severity DESC`, excludedComplaintIds)
+}
+
+exports.getUpdatedReviewedComplaints = (excludedComplaintIds) => {
+    const placeholders = excludedComplaintIds.map(() => '?').join(',')
+    return db.promise().query(`SELECT * FROM complaints WHERE status = 'reviewed' AND id NOT IN (${placeholders}) ORDER BY severity DESC`, excludedComplaintIds)
+}
+
 exports.getUpdatedComplaints = (excludedComplaintIds) => {
     const placeholders = excludedComplaintIds.map(() => '?').join(',')
-    return db.promise().query(`SELECT * FROM complaints WHERE id NOT IN (${placeholders} ORDER BY severity DESC)`, excludedComplaintIds)
+    return db.promise().query(`SELECT * FROM complaints WHERE id NOT IN (${placeholders}) ORDER BY severity DESC`, excludedComplaintIds)
 }
 
 exports.insertComplaint = (data) => {

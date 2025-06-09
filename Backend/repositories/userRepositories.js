@@ -5,6 +5,10 @@ exports.getAllUsers = () => {
     return db.promise().query("SELECT * FROM users")
 };
 
+exports.getUserById = (id) => {
+    return db.promise().query("SELECT * FROM users WHERE id = ?", [id])
+}
+
 exports.getCredentialsByUserId = (userId) => {
     return db.promise().query(`SELECT username, hashed_password FROM users WHERE id = ?`, [userId])
 }

@@ -6,6 +6,7 @@ exports.getUpdatedPosts = async (excludedPostIds, limit) => {
     if (excludedPostIds && excludedPostIds.length > 0) [posts] = await postRepositories.getUpdatedPosts(excludedPostIds)
     else [posts] = await postRepositories.getAllPosts()
     
+    if (posts.length < limit) limit = posts.length
     // Membentuk array sebanyak limit secara random
     return randomize.randomizeArrayWithLimit(posts, limit);
 }
@@ -13,6 +14,11 @@ exports.getUpdatedPosts = async (excludedPostIds, limit) => {
 exports.createPost = async ({user_id, text, is_edited, upvote_count, post_type, is_deleted, headline, downvote_count}) => {
     const [OkPacket] = await postRepositories.createPost({user_id, text, is_edited, upvote_count, post_type, is_deleted, headline, downvote_count})
     return OkPacket
+}
+
+exports.getPostById = async (id) => {
+    const [[post]] = await postRepositories.getPostById(id)
+    return post;
 }
 
 exports.deletePost = async ({id}) => {

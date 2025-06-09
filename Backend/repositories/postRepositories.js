@@ -10,6 +10,10 @@ exports.getAllPosts = () => {
     return db.promise().query("SELECT * FROM posts")
 }
 
+exports.getPostById = (id) => {
+    return db.promise().query("SELECT * FROM posts WHERE id = ?", [id])
+}
+
 exports.createPost = (data) => {
     const {fields, values} = utils.getFieldsValues(data)
 

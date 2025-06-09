@@ -5,48 +5,80 @@ exports.getAllComplaints = async (req, res) => {
     try {
         const complaints = await complaintServices.getAllComplaints()
 
-        if (!complaints || complaints.length <= 0) response(res, 204, "Complaints successfully sent, yet no data", complaints)
-        response(res, 200, "Complaints successfully retrieved!", complaints)
-    } catch (e) {
-        response(res, 500, "Error: " + e)
+        if (!complaints || complaints.length <= 0) response({res, statusCode: 204})
+        response({res, statusCode: 200, message: "Complaints successfully retrieved!", data:complaints, count:complaints.length})
+    } catch (error) {
+        response({res, statusCode: 500, message: "Error: " + error})
+    }
+}
+
+exports.getUpdatedPendingComplaints = async (req, res) => {
+    try {
+        const { excludedComplaintIds = [], limit = 5 } = req.body
+
+        const complaints = await complaintServices.getUpdatedPendingComplaints(excludedComplaintIds, limit)
+        excludedComplaintIds.push(...complaints.map(c => c.id))
+
+        if (!complaints || complaints.length <= 0) return response({res, statusCode: 204})
+        response({res, statusCode:200, message:"Pending Complaints has successfully been sent!", data:complaints, count:complaints.length, excludedIds:excludedComplaintIds})
+    } catch (error) {
+        response({res, statusCode:500, message:"Pending Complaints has not successfully been sent!"})
+    }
+}
+
+exports.getUpdatedReviewedComplaints = async (req, res) => {
+    try {
+        const { excludedComplaintIds = [], limit = 5 } = req.body
+
+        const complaints = await complaintServices.getUpdatedReviewedComplaints(excludedComplaintIds, limit)
+        excludedComplaintIds.push(...complaints.map(c => c.id))
+
+        if (!complaints || complaints.length <= 0) return response({res, statusCode: 204})
+        response({res, statusCode:200, message:"Reviewed Complaints has successfully been sent!", data:complaints, count:complaints.length, excludedIds:excludedComplaintIds})
+    } catch (error) {
+        response({res, statusCode:500, message:"Error: " + error})
     }
 }
 
 exports.getUpdatedComplaints = async (req, res) => {
     try {
         const { excludedComplaintIds = [], limit = 5 } = req.body
+
         const complaints = await complaintServices.getUpdatedComplaints(excludedComplaintIds, limit)
         excludedComplaintIds.push(...complaints.map(c => c.id))
 
-        if (!complaints || complaints.length <= 0) response(res, 204, "Complaints successfully sent, yet no data", complaints, excludedComplaintIds)
-        response(res, 200, "Complaints successfully retrieved!", complaints, excludedComplaintIds)
-    } catch (e) {
-        response(res, 500, "Error: " + e)
+        if (!complaints || complaints.length <= 0) return response({res, statusCode: 204})
+        response({res, statusCode: 200, message: "Complaints successfully retrieved!", data:complaints, excludedIds:excludedComplaintIds, count:complaints.length})
+    } catch (error) {
+        response({res, statusCode: 500, message: "Error: " + error})
+
     }
 }
 
 exports.createComplaint = async (req, res) => {
     try {
         // Harus sambungin dengan table complaint_police_units
-        const { post_id = null, status = "pending", description, severity, is_anonymous = true, user_id, is_resolved = false, headline, message_id = null, complaint_police_unit_id = null, is_updated = 0 } = req.body
+        const { post_id = null, status = "pending", description, severity, is_anonymous = true, user_id, is_resolved = false, headline, message_id = null, complaint_police_unit_id = null, is_edited = 0 } = req.body
 
-        const complaintOkPacket = await complaintServices.createComplaint({post_id, status, description, severity, is_anonymous, user_id, is_resolved, headline, message_id, complaint_police_unit_id, is_updated})
+        const complaintOkPacket = await complaintServices.createComplaint({post_id, status, description, severity, is_anonymous, user_id, is_resolved, headline, message_id, complaint_police_unit_id, is_edited})
 
-        response(res, 200, "Complaints successfully created!", complaintOkPacket)
-    } catch (e) {
-        response(res, 500, "Error: " + e)
+        const addedComplaint = await complaintServices.getComplaintById(complaintOkPacket[0].insertId)
+        // console.log(addedComplaint)
+        response({res, statusCode: 200, message: "Complaints successfully created!", data:addedComplaint, count:addedComplaint.length})
+    } catch (error) {
+        response({res, statusCode: 500, message: "Error: " + error})
     }
 }
 
 exports.updateComplaint = async (req, res) => {
     try {
-        const { id, description, severity, is_anonymous, is_resolved, headline, complaint_police_unit_id, is_updated } = req.body
+        const { id, description, severity, is_anonymous, is_resolved, headline, complaint_police_unit_id, is_edited } = req.body
 
-        const complaintOkPacket = await complaintServices.updateComplaint(id, {description, severity, is_anonymous, is_resolved, headline, complaint_police_unit_id, is_updated})
+        const complaintOkPacket = await complaintServices.updateComplaint(id, {description, severity, is_anonymous, is_resolved, headline, complaint_police_unit_id, is_edited})
 
-        response(res, 200, "Complaints successfully updated!", complaintOkPacket)
-    } catch (e) {
-        response(res, 500, "Error: " + e)
+        response({res, statusCode: 200, message: "Complaints successfully updated!", data:complaintOkPacket, count:complaintOkPacket.length})
+    } catch (error) {
+        response({res, statusCode: 500, message: "Error: " + error})
     }
 }
 
@@ -54,8 +86,8 @@ exports.deleteComplaint = async (req, res) => {
     try {
         const id  = req.params.id
         const complaintOkPacket = await complaintServices.deleteComplaint(id)
-        response(res, 200, "Complaints successfully deleted!", complaintOkPacket)
-    } catch (e) {
-        response(res, 500, "Error: " + e)
+        response({res, statusCode: 200, message: "Complaints successfully deleted!", data:complaintOkPacket, count:complaintOkPacket.length})
+    } catch (error) {
+        response({res, statusCode: 500, message: "Error: " + error})
     }
 }

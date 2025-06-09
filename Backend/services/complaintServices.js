@@ -6,21 +6,50 @@ exports.getAllComplaints = async () => {
     return await complaintRepositories.getAllComplaints();
 }
 
-exports.getUpdatedComplaints = async (excludedComplaintIds, limit) => {
-    let rows = []
-    
-    if (excludedComplaintIds && excludedComplaintIds.length > 0) [rows] = await complaintRepositories.getUpdatedComplaints(excludedComplaintIds)
-    else [rows] = await complaintRepositories.getAllComplaints()
-    return randomize.randomizeArrayWithLimit(rows, limit)
+exports.getComplaintById = async (id) => {
+    const [[complaint]] = await complaintRepositories.getComplaintById(id)
+    return complaint;
 }
 
-exports.createComplaint = async ({post_id, status, description, severity, is_anonymous, user_id, is_resolved, headline, message_id, complaint_police_unit_id, is_updated}) => {
-    const complaintOkPacket = await complaintRepositories.insertComplaint({post_id, status, description, severity, is_anonymous, user_id, is_resolved, headline, message_id, complaint_police_unit_id, is_updated})
+exports.getUpdatedPendingComplaints = async (excludedComplaintIds, limit) => {
+    let complaints = []
+    
+    if (excludedComplaintIds && excludedComplaintIds.length > 0) [complaints] = await complaintRepositories.getUpdatedPendingComplaints(excludedComplaintIds)
+    else [complaints] = await complaintRepositories.getAllComplaints()
+
+    if (complaints.length < limit) limit = complaints.length
+    // Membentuk array sebanyak limit secara random
+    return randomize.randomizeArrayWithLimit(complaints, limit);
+}
+
+exports.getUpdatedReviewedComplaints = async (excludedComplaintIds, limit) => {
+    let complaints = []
+    if (excludedComplaintIds && excludedComplaintIds.length > 0) [complaints] = await complaintRepositories.getUpdatedReviewedComplaints(excludedComplaintIds)
+    else [complaints] = await complaintRepositories.getAllComplaints()
+
+    if (complaints.length < limit) limit = complaints.length
+    // Membentuk array sebanyak limit secara random
+    return randomize.randomizeArrayWithLimit(complaints, limit);
+}
+
+exports.getUpdatedComplaints = async (excludedComplaintIds, limit) => {
+    let complaints = []
+    
+    if (excludedComplaintIds && excludedComplaintIds.length > 0) [complaints] = await complaintRepositories.getUpdatedComplaints(excludedComplaintIds)
+    else [complaints] = await complaintRepositories.getAllComplaints()
+
+    if (complaints.length < limit) limit = complaints.length
+    // Membentuk array sebanyak limit secara random
+    return randomize.randomizeArrayWithLimit(complaints, limit);
+}
+
+exports.createComplaint = async ({post_id, status, description, severity, is_anonymous, user_id, is_resolved, headline, message_id, complaint_police_unit_id, is_edited}) => {
+    const complaintOkPacket = await complaintRepositories.insertComplaint({post_id, status, description, severity, is_anonymous, user_id, is_resolved, headline, message_id, complaint_police_unit_id, is_edited})
     return complaintOkPacket
 }
 
-exports.updateComplaint = async (id, {description, severity, is_anonymous, is_resolved, headline, complaint_police_unit_id, is_updated}) => {
-    const complaintOkPacket = await complaintRepositories.updateComplaint(id, {description, severity, is_anonymous, is_resolved, headline, complaint_police_unit_id, is_updated})
+exports.updateComplaint = async (id, {description, severity, is_anonymous, is_resolved, headline, complaint_police_unit_id, is_edited}) => {
+    const complaintOkPacket = await complaintRepositories.updateComplaint(id, {description, severity, is_anonymous, is_resolved, headline, complaint_police_unit_id, is_edited})
     return complaintOkPacket
 }
 

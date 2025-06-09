@@ -10,14 +10,25 @@ exports.getAllUsers = async (req, res) => {
     }
 }
 
+exports.getUserById = async (req, res) => {
+    try {
+        const id = req.query.id
+        const user = await userServices.getUserById(id)
+        response({res, statusCode: 200, message: "User successfully found!", data:user, count:user.length})
+    } catch (error) {
+        response({res, statusCode: 500, message: "Error: " + error})
+    }
+}
+
 exports.authenticate = async (req, res) => {
     try {
         const { username = "", password = "" } = req.body
         const user = await userServices.authenticate({username, password})
-        if (user) response(res, 200, "User successfully authenticated!", user)
-        response(res, 204, "User not successfully authenticated")
+
+        if (user) return response({res, statusCode: 200, message: "User successfully authenticated!", data:user, count:user.length})
+        response({res, statusCode: 204, message: "User not successfully authenticated", data:user, count:user.length})
     } catch (error) {
-        response(res, 500, "Error: " + error)
+        response({res, statusCode: 500, message: "Error: " + error})
     }
 }
 
@@ -33,8 +44,8 @@ exports.register = async (req, res) => {
         await userServices.insertUserAddress({user_id})
         await userServices.insertUserProfile({user_id, full_name})
 
-        response(res, 200, "Account successfully registered!")
+        response({res, statusCode: 200, message: "Account successfully registered!", data:OkPacket, count:OkPacket.length})
     } catch (error) {
-        response(res, 500, "Error: " + error)
+        response({res, statusCode: 500, message: "Error: " + error})
     }
 }

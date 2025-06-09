@@ -9,10 +9,14 @@ function randomizeArray(array) {
 
 function randomizeArrayWithLimit(array, limit) {
     let newArray = [];
+    // console.log("limit: " + limit)
+    // console.log("array: " + array)
     while (newArray.length < limit) {
         const j = Math.floor(Math.random() * array.length);
         if (!newArray.includes(array[j])) newArray.push(array[j]);
     }
+    
+    
     return newArray;
 }
 
