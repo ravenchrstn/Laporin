@@ -18,19 +18,19 @@ html {
     height: 100vh;
 }
 
-.login-box,
-.image-box {
+.login_box,
+.image_box {
     width: 500px;
     height: 700px;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 }
 
-.login-box {
+.login_box {
     background-color: white;
 }
 
-.login-box {
+.login_box {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -38,41 +38,41 @@ html {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
-*/ .login-box h2 {
+.login_box_h2 {
     margin-bottom: 30px;
     color: #333;
 }
 
-.login-box .laporin-title {
+.laporin_title {
     height: 30%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.login-box .login-title {
+.login_title {
     height: 70%;
 }
 
 
-.input-group {
+.input_group {
     margin-bottom: 20px;
 }
 
-.input-group label {
+.input_group_label {
     display: block;
     margin-bottom: 8px;
     color: #555;
 }
 
-.input-group input {
+.input_group_input {
     width: 100%;
     padding: 10px;
     border: 1px solid #aaa;
     border-radius: 5px;
 }
 
-button {
+.button {
     width: 100%;
     padding: 12px;
     background-color: #007bff;
@@ -83,12 +83,14 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.button:hover {
     background-color: #0056b3;
 }
 
-.image-box img {
+.image_box_img {
     width: 500px;
     height: 700px;
     object-fit: cover;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
 }

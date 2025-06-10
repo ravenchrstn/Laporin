@@ -4,6 +4,8 @@ import HomePage from './components/pages/HomePage';
 import { useState } from 'react';
 import ManageComplaintsPage from './components/pages/ManageComplaintsPage'
 import ComplaintDetailPage from './components/pages/ComplaintDetailPage'
+// import RegisterPage from './components/pages/RegisterPage'
+// import LoginPage from './components/pages/LoginPage'
 
 export default function App() {
     const [page, setPage] = useState("Home")
@@ -14,6 +16,8 @@ export default function App() {
             {page === "Home" ? <HomePage setPage={setPage} user={user}/> : ""}
             {page === "ManageComplaints" ? <ManageComplaintsPage setPage={setPage}/> : ""}
             {page === "ComplaintDetail" ? <ComplaintDetailPage setPage={setPage}/> : ""}
+            {/* {page === "Register" ? <RegisterPage setPage={setPage}/> : ""}
+            {page === "Login" ? <LoginPage/> : ""} */}
         </>
         
         // <ManageComplaintsPage />

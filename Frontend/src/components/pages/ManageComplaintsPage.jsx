@@ -59,7 +59,7 @@ export default function ManageComplaintsPage({user, setPage}) {
     }, [focusImage])
     
     let content = {
-        "Discussions": <DiscussionsTab setFocusImage={setFocusImage} severityTexts={severityTexts}/>,
+        "Discussions": <DiscussionsTab setFocusImage={setFocusImage} severityTexts={severityTexts} setPage={setPage}/>,
         "Complaints": <ComplaintTab setFocusImage={setFocusImage} severityTexts={severityTexts}/>
     };
 
@@ -102,7 +102,7 @@ function TabNavigator({activeTab, setActiveTab}) {
     )
 }
 
-function DiscussionsTab({setFocusImage, severityTexts}) {
+function DiscussionsTab({setFocusImage, severityTexts, setPage}) {
     let excludedReviewedComplaints = [1, 2, 3]
     const [reviewedComplaints, setreviewedComplaints] = useState([])
     
@@ -122,13 +122,13 @@ function DiscussionsTab({setFocusImage, severityTexts}) {
     return (
         <div className="g-red-500">
             {reviewedComplaints.map((complaint) => (
-                <DiscussionCard key={complaint.id} discussionCardData={complaint} severityTexts={severityTexts} setFocusImage={setFocusImage}/>
+                <DiscussionCard key={complaint.id} discussionCardData={complaint} severityTexts={severityTexts} setFocusImage={setFocusImage} setPage={setPage}/>
             ))}
         </div>
     )
 }
 
-function DiscussionCard({discussionCardData, setFocusImage, severityTexts}) {
+function DiscussionCard({discussionCardData, setFocusImage, severityTexts, setPage}) {
     const {id, post_id, status, reported_at, deadline_at, description, complaint_police_unit_id, headline, user_id, severity, message_id, is_edited, is_resolved, is_anonymous} = discussionCardData
     const postHeaderData = {
         user_id,
@@ -209,9 +209,12 @@ function DiscussionCard({discussionCardData, setFocusImage, severityTexts}) {
                     </div>
                     
                 <div className="mid-top flex g-slate-500 justify-between mx-6 gap-5 g-amber-400">
-                    <span className="h-fit flex-1 my-auto g-red-500 truncate text-[16px]/5 font-bold g-red-300 hover:text-white-hover transition cursor-pointer">
+                    <button className="h-fit flex-1 my-auto g-red-500 truncate text-[16px]/5 font-bold g-red-300 hover:text-white-hover transition cursor-pointer" onClick={() => {
+                        // console.log("masuk")
+                        setPage("ComplaintDetail")
+                    }}>
                         {headline}
-                    </span>
+                    </button>
                     <div className="h-full p-[0.5px] mr-[2px] relative aspect-1/1 flex items-center cursor-pointer hover:bg-neutral-600/60 rounded-full transition g-sky-500">
                         <input type="checkbox" id={`ellipsis-toggle-${id}`} className="peer sr-only"/>
                         <label htmlFor={`ellipsis-toggle-${id}`} className="g-red-500 h-full cursor-pointer">

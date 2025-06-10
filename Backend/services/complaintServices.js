@@ -17,7 +17,7 @@ exports.getUpdatedPendingComplaints = async (excludedComplaintIds, limit) => {
     if (excludedComplaintIds && excludedComplaintIds.length > 0) [complaints] = await complaintRepositories.getUpdatedPendingComplaints(excludedComplaintIds)
     else [complaints] = await complaintRepositories.getAllComplaints()
 
-    return complaints.slice(0, limit)
+    return complaints
 }
 
 exports.getUpdatedReviewedComplaints = async (excludedComplaintIds, limit) => {
@@ -25,7 +25,7 @@ exports.getUpdatedReviewedComplaints = async (excludedComplaintIds, limit) => {
     if (excludedComplaintIds && excludedComplaintIds.length > 0) [complaints] = await complaintRepositories.getUpdatedReviewedComplaints(excludedComplaintIds)
     else [complaints] = await complaintRepositories.getAllComplaints()
 
-    return complaints.slice(0, limit)
+    return complaints
 }
 
 exports.getUpdatedComplaints = async (excludedComplaintIds, limit) => {
@@ -34,7 +34,7 @@ exports.getUpdatedComplaints = async (excludedComplaintIds, limit) => {
     if (excludedComplaintIds && excludedComplaintIds.length > 0) [complaints] = await complaintRepositories.getUpdatedComplaints(excludedComplaintIds)
     else [complaints] = await complaintRepositories.getAllComplaints()
 
-    return complaints.slice(0, limit)
+    return complaints
 }
 
 exports.createComplaint = async ({post_id, status, description, severity, is_anonymous, user_id, is_resolved, headline, message_id, complaint_police_unit_id, is_edited}) => {
